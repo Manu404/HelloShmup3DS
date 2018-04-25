@@ -29,7 +29,7 @@ SDL_Surface* Sprite::LoadSurface( char* path )
 	}
 	else
 	{
-		optimizedSurface = SDL_DisplayFormat( loadedSurface );
+		optimizedSurface = SDL_DisplayFormatAlpha( loadedSurface );
 		if( optimizedSurface == NULL )
 		{
 			printf( "Unable to optimize image %s! SDL Error: %s\n", path, SDL_GetError() );

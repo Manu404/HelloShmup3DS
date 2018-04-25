@@ -38,7 +38,6 @@ void Background::Animate() {
 
 void Background::Display() {
 	for(int i = 0; i <= 5; i++) {
-		//if(i%2==0)
 		this->layers[i]->Display();
 	}
 }
