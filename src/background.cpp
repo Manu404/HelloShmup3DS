@@ -36,7 +36,7 @@ void Background::Animate() {
 
 void Background::Display(SDL_Surface* buffer) {
 	for(int i = 0; i <= 5; i++) {
-		if(i%2==0)
+		//if(i%2==0)
 		this->layers[i]->Display(buffer);
 	}
 }
