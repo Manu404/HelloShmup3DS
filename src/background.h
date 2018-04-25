@@ -9,7 +9,7 @@
 class BackgroundLayer: public Sprite {
 		int speed;
 	public:
-		BackgroundLayer(char*, int);
+		BackgroundLayer(char*, int, int, int);
 		void Animate();
 		void Display(SDL_Surface*);
 };
