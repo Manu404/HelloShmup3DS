@@ -11,7 +11,6 @@
 #define SCREEN_WIDTH 400
 #define SCREEN_HEIGHT 240
 
-
 void InitRomFs();
 void InitAudio();
 
@@ -27,8 +26,6 @@ int main(int argc, char **argv)
 
 	InitAudio();
 
-    Cat* cat = new Cat();
-	Background* background = new Background();
 	InputManager* inputManager = new InputManager();
 	
 	SDL_Surface* surf = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 
@@ -39,7 +36,10 @@ int main(int argc, char **argv)
 		screen->format->Amask);
 	
 	SDL_Surface *backsurface = SDL_ConvertSurface(surf, screen->format, SDL_SWSURFACE);
-
+	
+    Cat* cat = new Cat(screen);
+	Background* background = new Background(screen);
+	
     while(true) {
 		inputManager->HandleEvent();
 		
@@ -48,10 +48,10 @@ int main(int argc, char **argv)
 		
 		background->Animate();
 		
-		background->Display(backsurface);
-		cat->Display(backsurface);		
+		background->Display();
+		cat->Display();		
 		
-		SDL_BlitSurface(backsurface, NULL, screen, NULL);
+		//SDL_BlitSurface(backsurface, NULL, screen, NULL);
 		
 		SDL_Flip(screen);
     }

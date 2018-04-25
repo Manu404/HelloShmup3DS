@@ -4,20 +4,44 @@
 #include "SDL/SDL_image.h"
 #include "sprite.h"
 
-Sprite::Sprite(char* path, int framePerRow, int width, int height, int x, int y) {
+Sprite::Sprite(char* path, int framePerRow, int width, int height, int x, int y, SDL_Surface* buffer) {
 	currentRow = 0;
 	currentFrame = 0;
 	this->framePerRow = framePerRow;
 	this->width = width;
 	this->height = height;  
-	this->image = IMG_Load(path);
+	this->buffer = buffer;
+	this->image = this->LoadSurface(path);
 	this->x=x;
 	this->y=y;
 	if(this->image == NULL)
 		printf("Can't load image");
 }
 
-void Sprite::Display(SDL_Surface* buffer, int x, int y) {
+SDL_Surface* Sprite::LoadSurface( char* path )
+{
+	SDL_Surface* optimizedSurface = NULL;
+
+	SDL_Surface* loadedSurface = IMG_Load(path);
+	if( loadedSurface == NULL )
+	{
+		printf( "Unable to load image %s! SDL Error: %s\n", path, SDL_GetError() );
+	}
+	else
+	{
+		optimizedSurface = SDL_DisplayFormat( loadedSurface );
+		if( optimizedSurface == NULL )
+		{
+			printf( "Unable to optimize image %s! SDL Error: %s\n", path, SDL_GetError() );
+		}
+
+		SDL_FreeSurface( loadedSurface );
+	}
+
+	return optimizedSurface;
+}
+
+void Sprite::Display(int x, int y) {
 	SDL_Rect srcrect = { currentFrame * width, currentRow * height, width, height };
 	SDL_Rect dstrect = { x, y, width, height };
 	SDL_BlitSurface(image, &srcrect, buffer, &dstrect);
@@ -30,8 +54,8 @@ void Sprite::Animate() {
 	}
 }
 
-void Sprite::Display(SDL_Surface* buffer) {
-	this->Display(buffer, this->x, this->y);
+void Sprite::Display() {
+	this->Display(this->x, this->y);
 }
 
 void Sprite::SetAnimation(int animation) {

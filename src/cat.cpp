@@ -6,7 +6,7 @@
 #include "input.h"
 #include "cat.h"
 
-Cat::Cat() : Sprite("romfs:/cat.png", CAT_FRAME_PER_ANIMATION, CAT_SPRITE_WIDTH, CAT_SPRITE_HEIGHT, 100, 100){
+Cat::Cat(SDL_Surface* buffer) : Sprite("romfs:/cat.png", CAT_FRAME_PER_ANIMATION, CAT_SPRITE_WIDTH, CAT_SPRITE_HEIGHT, 100, 100, buffer){
 	speed = CAT_SPEED;
 }
 
