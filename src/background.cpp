@@ -2,7 +2,7 @@
 #include "sprite.h"
 #include "input.h"
 
-BackgroundLayer::BackgroundLayer(char* bgPath, int scrollingSpeed) : Sprite(bgPath, 0, 512, 256, 0, 0) {
+BackgroundLayer::BackgroundLayer(char* bgPath, int scrollingSpeed) : Sprite(bgPath, 0, BG_WIDTH, BG_HEIGHT, 0, 0) {
 	this->speed = scrollingSpeed;
 }
 

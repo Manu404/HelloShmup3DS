@@ -6,30 +6,26 @@
 #include "input.h"
 #include "cat.h"
 
-Cat::Cat() : Sprite("romfs:/cat.png", 3, 32, 32, 100, 100){
-	speed = 7;
+Cat::Cat() : Sprite("romfs:/cat.png", CAT_FRAME_PER_ANIMATION, CAT_SPRITE_WIDTH, CAT_SPRITE_HEIGHT, 100, 100){
+	speed = CAT_SPEED;
 }
 
 void Cat::HandleInput(InputManager* inputManager) {
 	if(inputManager->IsKeyUpPressed()) {
-		this->SetAnimation(3);
+		this->SetAnimation(CAT_ANIMATION_UP);
 		this->y-= speed;
-		printf("up\n");
 	}
 	if(inputManager->IsKeyDownPressed()) {
-		this->SetAnimation(0);
+		this->SetAnimation(CAT_ANIMATION_DN);
 		this->y+= speed;
-		printf("dn\n");
 	}	
 	if(inputManager->IsKeyLeftPressed()) {
-		this->SetAnimation(1);
+		this->SetAnimation(CAT_ANIMATION_LT);
 		this->x-= speed;
-		printf("lt\n");
 	}
 	if(inputManager->IsKeyRightPressed()) {
-		this->SetAnimation(2);
+		this->SetAnimation(CAT_ANIMATION_RT);
 		this->x+= speed;
-		printf("up\n");
 	}
 	
 	if(inputManager->IsDirectionPressed())

@@ -3,6 +3,9 @@
 #include "sprite.h"
 #include "input.h"
 
+#define BG_WIDTH 512
+#define BG_HEIGHT 256
+
 class BackgroundLayer: public Sprite {
 		int speed;
 	public:
