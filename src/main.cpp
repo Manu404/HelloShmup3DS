@@ -7,12 +7,8 @@
 #include "input.h"
 #include "cat.h"
 #include "background.h"
-
-#define SCREEN_WIDTH 400
-#define SCREEN_HEIGHT 240
-
-void InitRomFs();
-void InitAudio();
+#include "ship.h"
+#include "main.h"
 
 int main(int argc, char **argv)
 {
@@ -37,21 +33,22 @@ int main(int argc, char **argv)
 	
 	SDL_Surface *backsurface = SDL_ConvertSurface(surf, screen->format, SDL_SWSURFACE);
 	
-    Cat* cat = new Cat(screen);
-	Background* background = new Background(screen);
+    Cat* cat = new Cat(backsurface);
+	Ship* ship = new Ship(backsurface);
+	Background* background = new Background(backsurface);
 	
     while(true) {
 		inputManager->HandleEvent();
 		
-		cat->HandleInput(inputManager);
-		cat->Animate();
+		ship->HandleInput(inputManager);
 		
 		background->Animate();
 		
-		background->Display();
-		cat->Display();		
+		background->DisplayBackground();
+		ship->Display();	
+		background->DisplayOverlay();	
 		
-		//SDL_BlitSurface(backsurface, NULL, screen, NULL);
+		SDL_BlitSurface(backsurface, NULL, screen, NULL);
 		
 		SDL_Flip(screen);
     }

@@ -21,7 +21,8 @@ class Background {
 	public:
 		Background(SDL_Surface*);
 		void Animate();
-		void Display();
+		void DisplayBackground();
+		void DisplayOverlay();
 };
 
 #endif

@@ -36,9 +36,16 @@ void Background::Animate() {
 	}
 }
 
-void Background::Display() {
-	for(int i = 0; i <= 5; i++) {
+void Background::DisplayBackground() {
+	for(int i = 0; i <= 4; i++) {
 		this->layers[i]->Display();
 	}
 }
+
+void Background::DisplayOverlay() {
+	for(int i = 5; i <= 5; i++) {
+		this->layers[i]->Display();
+	}
+}
+
 
