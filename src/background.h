@@ -9,20 +9,20 @@
 #define BG_HEIGHT 256
 
 class BackgroundLayer: public Sprite {
-		int speed;
-	public:
-		BackgroundLayer(char*, int, int, int, SDL_Surface*);
-		void Animate();
-		void Display();
+        int speed;
+    public:
+        BackgroundLayer(char*, int, int, int, SDL_Surface*);
+        void Animate();
+        void Display();
 };
 
 class Background {
-		BackgroundLayer* layers[6];
-	public:
-		Background(SDL_Surface*);
-		void Animate();
-		void DisplayBackground();
-		void DisplayOverlay();
+        BackgroundLayer* layers[6];
+    public:
+        Background(SDL_Surface*);
+        void Animate();
+        void DisplayBackground();
+        void DisplayOverlay();
 };
 
 #endif

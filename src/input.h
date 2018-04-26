@@ -8,18 +8,18 @@
 #define K_LT 3
 
 class InputManager {
-		int key_held[4];
-		void Reset();
-	public:
-		InputManager();
-		int HandleEvent();
+        int key_held[4];
+        void Reset();
+    public:
+        InputManager();
+        int HandleEvent();
+    	
+        int IsKeyUpPressed();
+        int IsKeyDownPressed();
+        int IsKeyLeftPressed();
+        int IsKeyRightPressed();
 		
-		int IsKeyUpPressed();
-		int IsKeyDownPressed();
-		int IsKeyLeftPressed();
-		int IsKeyRightPressed();
-		
-		int IsDirectionPressed();
+        int IsDirectionPressed();
 };
 
 #endif

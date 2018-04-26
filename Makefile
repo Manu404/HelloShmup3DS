@@ -1,5 +1,5 @@
-export DEVKITPRO=/opt/devkitpro
-export DEVKITARM=/opt/devkitpro/devkitARM
+export DEVKITPRO=C:\devkitpro
+export DEVKITARM=C:\devkitpro/devkitARM
 
 #---------------------------------------------------------------------------------
 .SUFFIXES:

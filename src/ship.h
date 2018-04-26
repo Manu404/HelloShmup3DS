@@ -16,10 +16,10 @@
 #define Ship_SPEED 7
 
 class Ship: public Sprite {
-		int speed;
-	public:
-		Ship(SDL_Surface* buffer);
-		void HandleInput(InputManager*);
+        int speed;
+    public:
+        Ship(SDL_Surface* buffer);
+        void HandleInput(InputManager*);
 };
 
 #endif

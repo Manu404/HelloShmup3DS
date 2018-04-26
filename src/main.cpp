@@ -18,39 +18,39 @@ int main(int argc, char **argv)
 
     screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16, SDL_SWSURFACE | SDL_TOPSCR | SDL_CONSOLEBOTTOM);
 
-	InitRomFs();
+    InitRomFs();
 
-	InitAudio();
+    InitAudio();
 
-	InputManager* inputManager = new InputManager();
+    InputManager* inputManager = new InputManager();
 	
-	SDL_Surface* surf = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 
-		screen->format->BitsPerPixel,
-		screen->format->Rmask, 
-		screen->format->Gmask, 
-		screen->format->Bmask, 
-		screen->format->Amask);
+    SDL_Surface* surf = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 
+        screen->format->BitsPerPixel,
+        screen->format->Rmask, 
+        screen->format->Gmask, 
+        screen->format->Bmask, 
+        screen->format->Amask);
 	
-	SDL_Surface *backsurface = SDL_ConvertSurface(surf, screen->format, SDL_SWSURFACE);
+    SDL_Surface *backsurface = SDL_ConvertSurface(surf, screen->format, SDL_SWSURFACE);
 	
     Cat* cat = new Cat(backsurface);
-	Ship* ship = new Ship(backsurface);
-	Background* background = new Background(backsurface);
+    Ship* ship = new Ship(backsurface);
+    Background* background = new Background(backsurface);
 	
     while(true) {
-		inputManager->HandleEvent();
+        inputManager->HandleEvent();
+	
+        ship->HandleInput(inputManager);
 		
-		ship->HandleInput(inputManager);
+        background->Animate();
 		
-		background->Animate();
+        background->DisplayBackground();
+        ship->Display();	
+        background->DisplayOverlay();	
 		
-		background->DisplayBackground();
-		ship->Display();	
-		background->DisplayOverlay();	
+        SDL_BlitSurface(backsurface, NULL, screen, NULL);
 		
-		SDL_BlitSurface(backsurface, NULL, screen, NULL);
-		
-		SDL_Flip(screen);
+        SDL_Flip(screen);
     }
     SDL_Quit();
   
@@ -62,7 +62,7 @@ void InitAudio() {
     Mix_Music *music = NULL;
     int flags = MIX_INIT_MP3;
 	
-	if( Mix_OpenAudio( 22050, AUDIO_S16, 2, 1024) < 0) 
+    if( Mix_OpenAudio( 22050, AUDIO_S16, 2, 1024) < 0) 
     {
     	printf("Error initializing SDL_mixer: %s\n", Mix_GetError());
     }
@@ -83,7 +83,7 @@ void InitAudio() {
 }
 
 void InitRomFs() {
-	Result rs = romfsInit();
+    Result rs = romfsInit();
     if (rs)
         printf("romfsInit: %08lx\n", rs);
     else {

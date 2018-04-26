@@ -17,10 +17,10 @@
 #define CAT_SPEED 7
 
 class Cat: public Sprite {
-		int speed;
-	public:
-		Cat(SDL_Surface* buffer);
-		void HandleInput(InputManager*);
+        int speed;
+    public:
+        Cat(SDL_Surface* buffer);
+        void HandleInput(InputManager*);
 };
 
 #endif
