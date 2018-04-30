@@ -32,7 +32,7 @@ citra := C:\git\citra-added-shortcut\build\bin\Release\citra-qt.exe
 #     - icon.png
 #     - <libctru folder>/default_icon.png
 #---------------------------------------------------------------------------------
-TARGET		:=	HelloWorld
+TARGET		:=	HelloShmup
 BUILD		:=	build
 SOURCES		:=	src  
 INCLUDES	:=	src  
