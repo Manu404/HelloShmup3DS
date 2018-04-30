@@ -1,17 +1,21 @@
-#ifndef InputManager_H
+#ifndef InputMgmt_H
 
-#define InputManager_H
+#define InputMgmt_H
 
 #define K_UP 0
 #define K_DN 1
 #define K_RT 2
 #define K_LT 3
+#define K_A 4
+#define K_SELECT 5
+#define K_QUIT 6
 
-class InputManager {
-        int key_held[4];
+class InputMgmt {
+        int key_held[7];
         void Reset();
     public:
-        InputManager();
+        InputMgmt();
+
         int HandleEvent();
     	
         int IsKeyUpPressed();
@@ -20,6 +24,11 @@ class InputManager {
         int IsKeyRightPressed();
 		
         int IsDirectionPressed();
+
+        int IsKeyAPressed();
+        int IsKeySelectPressed();
+
+        int IsQuitRequested();
 };
 
 #endif

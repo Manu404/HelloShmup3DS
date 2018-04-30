@@ -10,25 +10,25 @@ Cat::Cat(SDL_Surface* buffer) : Sprite("romfs:/cat.png", CAT_FRAME_PER_ANIMATION
     speed = CAT_SPEED;
 }
 
-void Cat::HandleInput(InputManager* inputManager) {
-    if(inputManager->IsKeyUpPressed()) {
+void Cat::HandleInput(InputMgmt* InputMgmt) {
+    if(InputMgmt->IsKeyUpPressed()) {
         this->SetAnimation(CAT_ANIMATION_UP);
         this->y-= speed;
     }
-    if(inputManager->IsKeyDownPressed()) {
+    if(InputMgmt->IsKeyDownPressed()) {
         this->SetAnimation(CAT_ANIMATION_DN);
         this->y+= speed;
     }	
-    if(inputManager->IsKeyLeftPressed()) {
+    if(InputMgmt->IsKeyLeftPressed()) {
         this->SetAnimation(CAT_ANIMATION_LT);
         this->x-= speed;
     }
-    if(inputManager->IsKeyRightPressed()) {
+    if(InputMgmt->IsKeyRightPressed()) {
         this->SetAnimation(CAT_ANIMATION_RT);
         this->x+= speed;
     }
 	
-    if(inputManager->IsDirectionPressed())
+    if(InputMgmt->IsDirectionPressed())
         this->StartAnimation();
     else
         this->StopAnimation();

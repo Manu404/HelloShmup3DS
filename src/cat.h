@@ -20,7 +20,7 @@ class Cat: public Sprite {
         int speed;
     public:
         Cat(SDL_Surface* buffer);
-        void HandleInput(InputManager*);
+        void HandleInput(InputMgmt*);
 };
 
 #endif

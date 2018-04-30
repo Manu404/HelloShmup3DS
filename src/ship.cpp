@@ -6,45 +6,63 @@
 #include "input.h"
 #include "ship.h"
 #include "main.h"
+#include "bullet.h"
 
-Ship::Ship(SDL_Surface* buffer) : Sprite("romfs:/ship.png", Ship_FRAME_PER_ANIMATION, Ship_SPRITE_WIDTH, Ship_SPRITE_HEIGHT, 100, 100, buffer){
-    speed = Ship_SPEED;
+Ship::Ship(SDL_Surface* buffer) : Sprite(SHIP_SPRITE, SHIP_ANIMATION_PER_ROW, SHIP_SPRITE_WIDTH, SHIP_SPRITE_HEIGHT, 100, 100, buffer){
+    speed = SHIP_SPEED;
+    frameSinceLastShot = 0;
 }
 
-void Ship::HandleInput(InputManager* inputManager) {
-    int xvector = 0;
-    int yvector = 0;
-	
-    if(inputManager->IsKeyUpPressed()) {
-        this->SetAnimation(Ship_ANIMATION_UP);
-        yvector -= speed;
+void Ship::HandleInput(InputMgmt* InputMgmt, BulletManager* bulletManager) {
+    Ship::HandleShipMovement(InputMgmt);
+    Ship::HandleFire(InputMgmt, bulletManager);
+}
+
+void Ship::HandleFire(InputMgmt* InputMgmt, BulletManager* bulletManager) {
+    if (InputMgmt->IsKeyAPressed()) {
+        if (frameSinceLastShot == 0) {
+            bulletManager->AddBlueBullet(this->x, this->y);
+        }
+
+        frameSinceLastShot += 1;
+        if (frameSinceLastShot == BLUE_BULLET_SHOT_SPEED)
+            frameSinceLastShot = 0;
     }
-    if(inputManager->IsKeyDownPressed()) {
-        this->SetAnimation(Ship_ANIMATION_DN);
-        yvector += speed;
-    }	
-    if(inputManager->IsKeyLeftPressed()) {
-        this->SetAnimation(Ship_ANIMATION_FT);
-        xvector-= speed;
+}
+
+void Ship::HandleShipMovement(InputMgmt* InputMgmt) {
+    Vector2* vector = new Vector2(0, 0);
+
+    if (InputMgmt->IsKeyUpPressed()) {
+        this->SetAnimation(SHIP_ANIMATION_UP);
+        vector->y -= speed;
     }
-    if(inputManager->IsKeyRightPressed()) {
-        this->SetAnimation(Ship_ANIMATION_FT);
-        xvector+= speed;
+    if (InputMgmt->IsKeyDownPressed()) {
+        this->SetAnimation(SHIP_ANIMATION_DN);
+        vector->y += speed;
     }
-	
-    if(xvector > 0 && (this->x + xvector + Ship_SPRITE_WIDTH) >= SCREEN_WIDTH)
-        xvector = 0;
-    if(xvector < 0 && (this->x < 0))
-        xvector = 0;
-	
-    if(yvector > 0 && (this->y + yvector + Ship_SPRITE_HEIGHT - 16) >= SCREEN_HEIGHT)
-        yvector = 0;
-    if(yvector < 0 && (this->y) < 0)
-        yvector = 0;
-    
-    this->x += xvector;
-    this->y += yvector;
-	
-    if(!inputManager->IsDirectionPressed())
-        this->SetAnimation(Ship_ANIMATION_FT);
+    if (InputMgmt->IsKeyLeftPressed()) {
+        this->SetAnimation(SHIP_ANIMATION_FT);
+        vector->x -= speed;
+    }
+    if (InputMgmt->IsKeyRightPressed()) {
+        this->SetAnimation(SHIP_ANIMATION_FT);
+        vector->x += speed;
+    }
+
+    if (vector->x > 0 && (this->x + vector->x + SHIP_SPRITE_WIDTH) >= SCREEN_WIDTH)
+        vector->x = 0;
+    if (vector->x < 0 && (this->x < 0))
+        vector->x = 0;
+
+    if (vector->y > 0 && (this->y + vector->y + SHIP_SPRITE_HEIGHT - 16) >= SCREEN_HEIGHT)
+        vector->y = 0;
+    if (vector->y < 0 && (this->y) < 0)
+        vector->y = 0;
+
+    this->x += vector->x;
+    this->y += vector->y;
+
+    if (!InputMgmt->IsDirectionPressed())
+        this->SetAnimation(SHIP_ANIMATION_FT);
 }

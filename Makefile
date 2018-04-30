@@ -11,6 +11,8 @@ endif
 
 TOPDIR ?= $(CURDIR)
 include $(DEVKITARM)/3ds_rules
+makerom := $(DEVKITARM)/bin/makerom/makerom.exe
+citra := C:\git\citra-added-shortcut\build\bin\Release\citra-qt.exe
 
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
@@ -150,12 +152,16 @@ $(TARGET)-strip.elf: $(BUILD)
 	@$(STRIP) $(TARGET).elf -o $(TARGET)-strip.elf
 #---------------------------------------------------------------------------------
 cci: $(TARGET)-strip.elf
-	@makerom -f cci -rsf resources/$(TARGET).rsf -target d -exefslogo -elf $(TARGET)-strip.elf -o $(TARGET).3ds
+	@$(makerom) -f cci -rsf resources/$(TARGET).rsf -target d -exefslogo -elf $(TARGET)-strip.elf -o $(TARGET).3ds
 	@echo "built ... 3ds"
 #---------------------------------------------------------------------------------
 cia: $(TARGET)-strip.elf
-	@makerom -f cia -o $(TARGET).cia -elf $(TARGET)-strip.elf -rsf resources/$(TARGET).rsf -icon resources/icon.bin -banner resources/banner.bin -exefslogo -target t
+	@$(makerom) -f cia -o $(TARGET).cia -elf $(TARGET)-strip.elf -rsf resources/$(TARGET).rsf -icon resources/icon.bin -banner resources/banner.bin -exefslogo -target t
 	@echo "built ... cia"
+#---------------------------------------------------------------------------------
+run:
+	@echo "run " $(TARGET).3dsx
+	@$(citra) $(TARGET).3dsx
 #---------------------------------------------------------------------------------
 else
 

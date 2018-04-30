@@ -9,51 +9,68 @@
 #include "background.h"
 #include "ship.h"
 #include "main.h"
+#include "bullet.h"
 
 int main(int argc, char **argv)
 {
+    int game_running = 1;
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK);
     SDL_Surface *screen;
     SDL_ShowCursor(SDL_DISABLE);
 
-    screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16, SDL_SWSURFACE | SDL_TOPSCR | SDL_CONSOLEBOTTOM);
+    screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16, SDL_HWSURFACE | SDL_TOPSCR | SDL_CONSOLEBOTTOM);
+
+    SDL_Surface* surf = SDL_CreateRGBSurface(SDL_HWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT,
+        screen->format->BitsPerPixel,
+        screen->format->Rmask,
+        screen->format->Gmask,
+        screen->format->Bmask,
+        screen->format->Amask);
+
+    SDL_Surface *backsurface = SDL_ConvertSurface(surf, screen->format, SDL_HWSURFACE);
 
     InitRomFs();
 
-    InitAudio();
+    //InitAudio();
 
-    InputManager* inputManager = new InputManager();
+    InputMgmt* im = new InputMgmt();
 	
-    SDL_Surface* surf = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH, SCREEN_HEIGHT, 
-        screen->format->BitsPerPixel,
-        screen->format->Rmask, 
-        screen->format->Gmask, 
-        screen->format->Bmask, 
-        screen->format->Amask);
-	
-    SDL_Surface *backsurface = SDL_ConvertSurface(surf, screen->format, SDL_SWSURFACE);
-	
-    Cat* cat = new Cat(backsurface);
     Ship* ship = new Ship(backsurface);
     Background* background = new Background(backsurface);
+    BulletManager* bulletManager = new BulletManager(backsurface);
 	
-    while(true) {
-        inputManager->HandleEvent();
-	
-        ship->HandleInput(inputManager);
-		
+    while(game_running == 1) {
+        im->HandleEvent();
+
+        if (im->IsKeySelectPressed() || im->IsQuitRequested())
+            game_running = 0;
+
+        ship->HandleInput(im, bulletManager);
+
         background->Animate();
-		
         background->DisplayBackground();
-        ship->Display();	
+        ship->Display();
+
+        bulletManager->Animate();
+        bulletManager->Display();
+		
         background->DisplayOverlay();	
 		
         SDL_BlitSurface(backsurface, NULL, screen, NULL);
 		
         SDL_Flip(screen);
     }
+
+    delete im;
+    delete background;
+    delete bulletManager;
+    delete ship;
+    
+    romfsExit();
+    SDL_FreeSurface(backsurface);
+    SDL_FreeSurface(screen);
+    SDL_FreeSurface(surf);
     SDL_Quit();
-  
     return 0;
 }
 

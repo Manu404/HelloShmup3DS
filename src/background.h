@@ -20,6 +20,7 @@ class Background {
         BackgroundLayer* layers[6];
     public:
         Background(SDL_Surface*);
+        ~Background();
         void Animate();
         void DisplayBackground();
         void DisplayOverlay();
