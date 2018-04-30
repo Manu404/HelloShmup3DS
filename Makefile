@@ -38,8 +38,8 @@ SOURCES		:=	src
 INCLUDES	:=	src  
 ROMFS       :=  dat
 
-APP_TITLE		:= HelloWorld 
-APP_DESCRIPTION		:= Demo application.
+APP_TITLE		:= HelloShmup
+APP_DESCRIPTION		:= An SDL Shoot'em'up.
 APP_AUTHOR		:= Developped by Manu404
 
 #---------------------------------------------------------------------------------

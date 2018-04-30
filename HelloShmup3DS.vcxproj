@@ -104,7 +104,15 @@
   <ItemGroup>
     <None Include="Makefile" />
     <None Include="resources\banner.bin" />
+    <None Include="resources\HelloWorld.rsf" />
     <None Include="resources\icon.bin" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="resources\audio.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\banner.png" />
+    <Image Include="resources\icon.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
