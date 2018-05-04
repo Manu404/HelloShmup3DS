@@ -86,6 +86,8 @@
     <ClCompile Include="src\bullet.cpp" />
     <ClCompile Include="src\bulletmanager.cpp" />
     <ClCompile Include="src\cat.cpp" />
+    <ClCompile Include="src\enemy.cpp" />
+    <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\input.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ship.cpp" />
@@ -96,6 +98,8 @@
     <ClInclude Include="src\bullet.h" />
     <ClInclude Include="src\cat.h" />
     <ClInclude Include="src\core.h" />
+    <ClInclude Include="src\enemy.h" />
+    <ClInclude Include="src\game.h" />
     <ClInclude Include="src\input.h" />
     <ClInclude Include="src\main.h" />
     <ClInclude Include="src\ship.h" />

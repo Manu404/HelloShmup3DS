@@ -8,7 +8,9 @@
 
 std::map<char*, SDL_Surface*> Sprite::surfaces;
 
-Sprite::Sprite(char* path, int animationPerRow, int framePerAnimation, int width, int height, int x, int y, SDL_Surface* buffer) {
+Sprite::Sprite(char* path, int animationPerRow, int framePerAnimation, int width, int height, int x, int y, SDL_Surface* buffer, int offsetRow, int offsetColumn) {
+    this->offsetColumn = offsetColumn;
+    this->offsetRow = offsetRow;
     this->framePerAnimation = framePerAnimation;
     this->animationPerRow = animationPerRow;
     this->currentAnimation = 0;
@@ -26,7 +28,7 @@ Sprite::Sprite(char* path, int animationPerRow, int framePerAnimation, int width
 }
 
 Sprite::~Sprite() {
-    SDL_FreeSurface(this->image);
+    //SDL_FreeSurface(this->image);
     printf("free sprite\n");
 }
 
@@ -61,7 +63,7 @@ SDL_Surface* Sprite::LoadSurfaceFromRomFs(char* path) {
 }
 
 void Sprite::Display(int x, int y) {
-    SDL_Rect srcrect = { currentAnimation * width, currentRow * height, width, height };
+    SDL_Rect srcrect = { (currentAnimation + offsetColumn) * width, (currentRow + offsetRow) * height, width, height };
     SDL_Rect dstrect = { x, y, width, height };
     SDL_BlitSurface(image, &srcrect, buffer, &dstrect);
 }

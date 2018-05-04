@@ -9,7 +9,7 @@
 #include "main.h"
 
 Bullet::Bullet(char* path, int animationPerRow, int framePerAnimation, Vector2* position, Vector2* direction, Vector2* size, int speed, SDL_Surface* buffer)
-    : Sprite(path, animationPerRow, framePerAnimation, size->x, size->y, position->x, position->y, buffer) {
+    : Sprite(path, animationPerRow, framePerAnimation, size->x, size->y, position->x, position->y, buffer, 0, 0) {
     this->speed = speed;
     this->direction = direction;
 }
