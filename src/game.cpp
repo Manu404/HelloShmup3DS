@@ -45,7 +45,7 @@ void Game::Run() {
         ship->HandleInput(im, bulletManager);
 
         if (frame % 30 == 0) {
-            enemyManager->AddEnemy(1, new Vector2(SCREEN_WIDTH, rand() % SCREEN_HEIGHT), 1);
+            enemyManager->AddEnemy(1, new Vector2(SCREEN_WIDTH, rand() % (SCREEN_HEIGHT - 40)), 1);
         }
 
         background->Animate();

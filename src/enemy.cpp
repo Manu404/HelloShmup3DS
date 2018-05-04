@@ -22,11 +22,11 @@ void EnemyManager::Animate() {
     std::list<Enemy*>::const_iterator iterator;
     for (iterator = enemies.begin(); iterator != enemies.end(); ++iterator) {
         (*iterator)->Animate();
-        if ((*iterator)->x > SCREEN_WIDTH || (*iterator)->y > SCREEN_HEIGHT)
+        if ((*iterator)->x > SCREEN_WIDTH || (*iterator)->y > SCREEN_HEIGHT || (*iterator)->x < (0 - (*iterator)->width) || (*iterator)->y < (0 - (*iterator)->height))
             delete (*iterator);
     }
 
-    enemies.remove_if([](Enemy* b) { return b->x > SCREEN_WIDTH || b->y > SCREEN_HEIGHT; });
+    enemies.remove_if([](Enemy* b) { return b->x > SCREEN_WIDTH || b->y > SCREEN_HEIGHT || b->x < (0 - b->width) || b->y < (0 - b->height); });
 }
 
 void EnemyManager::Display() {
@@ -38,7 +38,7 @@ void EnemyManager::Display() {
 
 void EnemyManager::AddEnemy(int enemyType, Vector2* position, int behaviour) {
     switch (enemyType) {
-        case 1: enemies.push_back(new Enemy(this->buffer, position, new Vector2(rand() % 8, rand() % 8), (rand() % 10) + 5)); break;
+        case 1: enemies.push_back(new Enemy(this->buffer, position, new Vector2(rand() % 8, rand() % 4), (rand() % 10) + 5)); break;
         default: break;
     }
 }
