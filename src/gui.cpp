@@ -50,6 +50,13 @@ void UserInterface::DisplayTitle() {
     SDL_BlitSurface(pressStartTitleMessage, NULL, buffer, &pressStartMessageRect);
 }
 
+void UserInterface::DisplayPause() {
+    SDL_Rect pauseMessageRect = { (SCREEN_WIDTH / 2) - (pauseMessage->w / 2), 75, 0, 0 };
+    SDL_BlitSurface(pauseMessage, NULL, buffer, &pauseMessageRect);
+    SDL_Rect pressStartMessageRect = { (SCREEN_WIDTH / 2) - (pressStartMessage->w / 2), 125, 0, 0 };
+    SDL_BlitSurface(pressStartMessage, NULL, buffer, &pressStartMessageRect);
+}
+
 
 void UserInterface::LoadFonts()
 {
@@ -64,7 +71,8 @@ void UserInterface::InitializeStaticSurface()
     gameOverMessage = TTF_RenderText_Solid(mainFont15, "Game Over", { 255, 255, 255 });
     pressStartMessage = TTF_RenderText_Solid(mainFont15, "Press Start For New Game", { 255, 255, 255 });
     pressSelectMessage = TTF_RenderText_Solid(mainFont15, "Press Select For Home", { 255, 255, 255 });
-    pressStartTitleMessage = TTF_RenderText_Solid(titleFont10, "Press Start", { 255, 255, 255 });
+    pressStartTitleMessage = TTF_RenderText_Solid(titleFont10, "Press A or Start", { 255, 255, 255 });
+    pauseMessage = TTF_RenderText_Solid(titleFont10, "Pause", { 255, 255, 255 });
 }
 
 void UserInterface::DisplayText(const char* text, SDL_Rect* position)

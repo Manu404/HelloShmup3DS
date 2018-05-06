@@ -88,6 +88,27 @@ void Game::Run() {
 void Game::RunLevel() {
     ship->HandleInput(im, bulletManager);
 
+    if (disabledInput > 0) {
+        return;
+    }
+
+    if(im->IsKeyStartPressed() && !is_paused) {
+        is_paused = true;
+        disabledInput = InputWaitFrame;
+        return;
+    }
+    
+    if (im->IsKeyStartPressed() && is_paused) {
+        is_paused = false;
+        disabledInput = InputWaitFrame;
+        return;
+    }
+
+    if (is_paused) {
+        ui->DisplayPause();
+        return;
+    }
+
     levelBackground->Animate();
     enemyManager->Animate();
     bulletManager->Animate();
@@ -101,7 +122,6 @@ void Game::RunLevel() {
         Vector2* adjustedPosition = new Vector2(ship->x - position->x, ship->y - position->y);
         bulletManager->AddEnemyBullet(position, adjustedPosition->Normalize());
     }
-
 
     levelBackground->DisplayBackground();
     enemyManager->Display();
@@ -121,10 +141,11 @@ void Game::RunTitle() {
     title_background->DisplayOverlay();
 
     if (disabledInput) return;
-    if (im->IsKeyStartPressed()) {
+    if (im->IsKeyStartPressed() || im->IsKeyAPressed()) {
         this->CreateLevelObject();
         this->data->Reset();
         is_title = false;
+        disabledInput = InputWaitFrame;
     }
     else if (im->IsKeySelectPressed()) {
         game_running = 0;
@@ -137,10 +158,11 @@ void Game::RunGameOver()
     if (im->IsKeyStartPressed()) {
         this->ResetLevel();
         data->Reset();
+        disabledInput = InputWaitFrame;
     }
     else if(im->IsKeySelectPressed()) {
         is_title = true;
-        disabledInput = 30;
+        disabledInput = InputWaitFrame;
         this->DeleteLevelObjects();
     }
 }

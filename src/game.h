@@ -9,8 +9,10 @@
 #include "enemy.h"
 #include "gui.h"
 
+#define InputWaitFrame 10
+
 class Game {
-    int game_running = 1, frame = 0, is_init, is_title = 1, disabledInput = 0;
+    int game_running = 1, frame = 0, is_init, is_title = 1, disabledInput = 0, is_paused = 0;
     SDL_Surface *screen, *backsurface;
     InputMgmt *im;
     Ship *ship;

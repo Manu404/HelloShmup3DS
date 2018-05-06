@@ -11,7 +11,7 @@
 Ship::Ship(SDL_Surface* buffer) : Sprite(SHIP_SPRITE, SHIP_ANIMATION_PER_ROW, SHIP_SPRITE_WIDTH, SHIP_SPRITE_HEIGHT, 100, 100, buffer){
     speed = SHIP_SPEED;
     frameSinceLastShot = 0;
-    Imune = 0;
+    Imune = 30;
 }
 
 void Ship::HandleInput(InputMgmt* InputMgmt, BulletManager* bulletManager) {

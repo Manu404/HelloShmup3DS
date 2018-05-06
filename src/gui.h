@@ -8,7 +8,7 @@
 class UserInterface {
     TTF_Font* mainFont15, *titleFont10;
 
-    SDL_Surface* buffer, *scoreMessage, *lifeMessage, *gameOverMessage, *pressStartMessage, *pressStartTitleMessage, *pressSelectMessage;
+    SDL_Surface* buffer, *scoreMessage, *lifeMessage, *gameOverMessage, *pressStartMessage, *pressStartTitleMessage, *pressSelectMessage, *pauseMessage;
 
     void LoadFonts();
     void InitializeStaticSurface();
@@ -19,6 +19,7 @@ public:
     void DisplayGameOver(GameData* data);
     void DisplayTitle();
     void DisplayText(const char * text, SDL_Rect* position);
+    void DisplayPause();
 };
 
 #endif
