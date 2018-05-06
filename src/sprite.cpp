@@ -65,6 +65,11 @@ SDL_Surface* Sprite::LoadSurfaceFromRomFs(char* path) {
     return optimizedSurface;
 }
 
+void Sprite::Display(SDL_Surface* src, SDL_Rect* srcRect, SDL_Surface* dst, SDL_Rect* dstRect) {
+    SDL_BlitSurface(src, srcRect, dst, dstRect);
+}
+
+
 void Sprite::Display() {
     this->Display(new Vector2(this->x, this->y));
 }
@@ -72,7 +77,9 @@ void Sprite::Display() {
 void Sprite::Display(Vector2* vector) {
     SDL_Rect srcrect = { (currentAnimation + offsetColumn) * width, (currentRow + offsetRow) * height, width, height };
     SDL_Rect dstrect = { vector->x, vector->y, width, height };
-    SDL_BlitSurface(image, &srcrect, buffer, &dstrect);
+    //SDL_BlitSurface(image, &srcrect, buffer, &dstrect);
+
+    this->Display(image, &srcrect, buffer, &dstrect);
 
     if (this->displayCollisionBox) {
         SDL_Rect collisionBox = this->GetCollisionBox();

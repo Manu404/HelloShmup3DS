@@ -36,6 +36,8 @@
 #define EXPLOSION_BULLET_SHOT_SPEED 3
 
 
+class Ship;
+
 class Bullet : public Sprite {
     float speed;
     Vector2* direction;
@@ -76,7 +78,7 @@ public:
     void AddEnemyBullet(Vector2* position, Vector2* direction);
     void AddExplosion(Vector2* position);
     void InitializeGraphics();
-    void HandleCollisionWithEnemy(EnemyManager* enemyManager, GameData* data);
+    void HandleCollisionWithEnemy(EnemyManager* enemyManager, GameData* data, Ship* ship);
 };
 
 #endif

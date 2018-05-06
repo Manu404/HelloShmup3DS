@@ -1,19 +1,30 @@
 #include "core.h"
 #include <tgmath.h>
 
-GameData::GameData()
-{
-    this->points = 0;
+GameData::GameData() {
+    this->Reset();
 }
 
-void GameData::AddPoints(int newPoints)
-{
+void GameData::AddPoints(int newPoints) {
     this->points += newPoints;
 }
 
-int GameData::GetPoints()
-{
+int GameData::GetPoints() {
     return this->points;
+}
+
+void GameData::Reset() {
+    this->points = 0;
+    this->life = 3;
+}
+
+
+int GameData::GetLife() {
+    return this->life;
+}
+
+void GameData::SetLife(int life) {
+    this->life = life;
 }
 
 // Returns the length of the vector
@@ -33,9 +44,3 @@ Vector2* Vector2::Normalize() {
 
     return vector;
 }
-
-Vector2* Vector2::Invert()
-{
-    return new Vector2(-x, -y);
-}
-

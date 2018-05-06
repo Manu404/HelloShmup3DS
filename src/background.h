@@ -18,6 +18,7 @@ class BackgroundLayer: public Sprite {
 };
 
 class Background {
+        SDL_Surface* buffer;
         std::list<BackgroundLayer*> layers;
         std::list<BackgroundLayer*> overlay;
     public:

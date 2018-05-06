@@ -20,11 +20,15 @@
 class Ship: public Sprite {
         int speed;
         int frameSinceLastShot;
+        int frameSinceLastImune;
         void HandleShipMovement(InputMgmt*);
         void HandleFire(InputMgmt*, BulletManager*);
     public:
+        int Imune = 0;
+        
         Ship(SDL_Surface* buffer);
         void HandleInput(InputMgmt*, BulletManager*);
+        void Display();
 };
 
 #endif

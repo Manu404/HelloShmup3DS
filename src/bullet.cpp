@@ -32,5 +32,6 @@ RedCrossBullet::RedCrossBullet(SDL_Surface* buffer, Vector2* position, Vector2* 
 
 ExplosionBullet::ExplosionBullet(SDL_Surface* buffer, Vector2* position)
     : Bullet(EXPLOSION_BULLET_SPRITE, EXPLOSION_BULLET_ANIMATION_PER_ROW, EXPLOSION_BULLET_FRAME_PER_ANIMATION, position, new Vector2(0, 0), new Vector2(EXPLOSION_BULLET_SPRITE_WIDTH, EXPLOSION_BULLET_SPRITE_HEIGHT), EXPLOSION_BULLET_SPEED, buffer, 0, 0) {
+    //this->SetAnimation(rand() % 25);
 }
 

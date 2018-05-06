@@ -11,6 +11,7 @@
 Ship::Ship(SDL_Surface* buffer) : Sprite(SHIP_SPRITE, SHIP_ANIMATION_PER_ROW, SHIP_SPRITE_WIDTH, SHIP_SPRITE_HEIGHT, 100, 100, buffer){
     speed = SHIP_SPEED;
     frameSinceLastShot = 0;
+    Imune = 0;
 }
 
 void Ship::HandleInput(InputMgmt* InputMgmt, BulletManager* bulletManager) {
@@ -66,3 +67,16 @@ void Ship::HandleShipMovement(InputMgmt* InputMgmt) {
     if (!InputMgmt->IsDirectionPressed())
         this->SetAnimation(SHIP_ANIMATION_FT);
 }
+
+void Ship::Display() {
+    if (Imune > 0) {
+        Imune -= 1;
+        if (Imune % 3 == 0) {
+            Sprite::Display();
+        }
+    }
+    else {
+        Sprite::Display();
+    }
+}
+

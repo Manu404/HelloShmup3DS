@@ -40,6 +40,12 @@ int InputMgmt::IsQuitRequested() {
     return key_held[K_QUIT];
 }
 
+int InputMgmt::IsStartPressed()
+{
+    return key_held[K_START];
+}
+
+
 int InputMgmt::IsDirectionPressed() {
     return key_held[K_LT] || key_held[K_RT] || key_held[K_DN] || key_held[K_UP];
 }
@@ -52,6 +58,7 @@ void InputMgmt::Reset() {
     key_held[K_A] = 0;
     key_held[K_SELECT] = 0;
     key_held[K_QUIT] = 0;
+    key_held[K_START] = 0;
 }
 
 int InputMgmt::HandleEvent() {
@@ -84,6 +91,10 @@ int InputMgmt::HandleEvent() {
                     key_held[K_SELECT] = 1;
                     //printf("a\n");
                     break;
+                case SDLK_RETURN:
+                    key_held[K_START] = 1;
+                    //printf("start\n");
+                    break;
             }
         }	
         if(event.type == SDL_KEYUP) {
@@ -111,6 +122,10 @@ int InputMgmt::HandleEvent() {
                 case SDLK_ESCAPE:
                     key_held[K_SELECT] = 0;
                     //printf("a\n");
+                    break;
+                case SDLK_RETURN:
+                    key_held[K_START] = 0;
+                    //printf("start\n");
                     break;
             }
         }

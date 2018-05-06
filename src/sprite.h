@@ -42,6 +42,7 @@ class Sprite {
     
         ~Sprite();
 
+        void Display(SDL_Surface* src, SDL_Rect* srcRect, SDL_Surface* dst, SDL_Rect* dstRect);
         void Display(Vector2*);
         void Display();
         void Animate();
@@ -50,5 +51,6 @@ class Sprite {
         void StopAnimation();
         int Collision(SDL_Rect* rect);
         SDL_Rect GetCollisionBox();
+    
 };
 #endif

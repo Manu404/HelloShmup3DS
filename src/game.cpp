@@ -19,7 +19,6 @@ Game::Game() {
 }
 
 Game::~Game() {
-    delete this->im;
     delete this->background;
     delete this->bulletManager;
     delete this->enemyManager;
@@ -33,6 +32,29 @@ Game::~Game() {
     TTF_Quit();
 }
 
+void Game::Reset()
+{
+    this->Delete();
+    this->Start();
+}
+
+void Game::Delete()
+{
+    delete this->im;
+    delete this->background;
+    delete this->bulletManager;
+    delete this->enemyManager;
+    delete this->ship;
+}
+
+void Game::Start() {
+    this->im = new InputMgmt();
+    this->ship = new Ship(this->backsurface);
+    this->background = new Background(this->backsurface);
+    this->bulletManager = new BulletManager(this->backsurface);
+    this->enemyManager = new EnemyManager(this->backsurface);
+}
+
 void Game::Run() {
     if (!is_init) return;
 
@@ -44,30 +66,40 @@ void Game::Run() {
         if (im->IsKeySelectPressed() || im->IsQuitRequested())
             game_running = 0;
 
-        ship->HandleInput(im, bulletManager);
+        if (data->GetLife() > 0) {
 
-        background->Animate();
-        enemyManager->Animate();
-        bulletManager->Animate();
-        ship->Animate();
+            ship->HandleInput(im, bulletManager);
 
-        bulletManager->HandleCollisionWithEnemy(enemyManager, data);
+            background->Animate();
+            enemyManager->Animate();
+            bulletManager->Animate();
+            ship->Animate();
 
-        if (frame % 30 == 0) {
-            Vector2* position = new Vector2(SCREEN_WIDTH, rand() % (SCREEN_HEIGHT - 40));
-            enemyManager->AddEnemy(1, position, 1);
-            Vector2* adjustedPosition = new Vector2(ship->x - position->x, ship->y - position->y);
-            bulletManager->AddEnemyBullet(position, adjustedPosition->Normalize());
+            bulletManager->HandleCollisionWithEnemy(enemyManager, data, ship);
+
+            if (frame % 30 == 0) {
+                Vector2* position = new Vector2(SCREEN_WIDTH, rand() % (SCREEN_HEIGHT - 40));
+                enemyManager->AddEnemy(1, position, 1);
+                Vector2* adjustedPosition = new Vector2(ship->x - position->x, ship->y - position->y);
+                bulletManager->AddEnemyBullet(position, adjustedPosition->Normalize());
+            }
+
+
+            background->DisplayBackground();
+            enemyManager->Display();
+            ship->Display();
+            bulletManager->Display();
+            background->DisplayOverlay();
+
+            ui->Display(data);
+        } 
+        else {
+            ui->DisplayGameOver(data);
+            if(im->IsStartPressed()) {
+                this->Reset();
+                data->Reset();
+            }
         }
-
-
-        background->DisplayBackground();
-        enemyManager->Display();
-        ship->Display();
-        bulletManager->Display();
-        background->DisplayOverlay();
-
-        ui->Display(data);
 
         SDL_BlitSurface(backsurface, NULL, screen, NULL);
 
@@ -86,11 +118,7 @@ void Game::Initialize() {
 }
 
 void Game::InitGameEngine() {
-    this->im = new InputMgmt();
-    this->ship = new Ship(this->backsurface);
-    this->background = new Background(this->backsurface);
-    this->bulletManager = new BulletManager(this->backsurface);
-    this->enemyManager = new EnemyManager(this->backsurface);
+    this->Start();
     this->ui = new UserInterface(this->backsurface);
     this->data = new GameData();
 }
@@ -133,7 +161,7 @@ void Game::InitAudio() {
     }
 
     //Load the music
-    music = Mix_LoadMUS("romfs:/vampire.it");
+    music = Mix_LoadMUS("romfs:/Vampire.it");
 
     //If there was a problem loading the music
     if (music == NULL)

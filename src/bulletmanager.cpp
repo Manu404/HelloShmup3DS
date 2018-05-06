@@ -7,6 +7,7 @@
 #include <list>
 #include "bullet.h"
 #include "main.h"
+#include "ship.h"
 
 BulletManager::BulletManager(SDL_Surface* buffer) {
     this->buffer = buffer;
@@ -41,6 +42,7 @@ void BulletManager::Animate() {
     }
  
     bullets.remove_if([](Bullet* b) { return b->x > SCREEN_WIDTH || b->y > SCREEN_HEIGHT || b->x < 0 || b->y < 0; });
+    enemyBullet.remove_if([](Bullet* b) { return b->x > SCREEN_WIDTH || b->y > SCREEN_HEIGHT || b->x < 0 || b->y < 0; });
     explosions.remove_if([](Bullet* b) { return b->EndReached; });
 }
 
@@ -81,7 +83,7 @@ void BulletManager::InitializeGraphics() {
     delete b;
 }
 
-void BulletManager::HandleCollisionWithEnemy(EnemyManager* enemyManager, GameData* data) {
+void BulletManager::HandleCollisionWithEnemy(EnemyManager* enemyManager, GameData* data, Ship* ship) {
     std::list<Bullet*>::const_iterator bulletIterator;
     for (bulletIterator = bullets.begin(); bulletIterator != bullets.end(); ++bulletIterator) {
         SDL_Rect rect = (*bulletIterator)->GetCollisionBox();
@@ -97,10 +99,45 @@ void BulletManager::HandleCollisionWithEnemy(EnemyManager* enemyManager, GameDat
                 }
                 (*bulletIterator)->HasHit = true;
             }
-        }        
+        }
+    }
+
+    for (bulletIterator = enemyBullet.begin(); bulletIterator != enemyBullet.end(); ++bulletIterator) {
+        SDL_Rect rect = (*bulletIterator)->GetCollisionBox();
+        if(ship->Collision(&rect) && ship->Imune <= 0)
+        {
+            this->AddExplosion(new Vector2((*bulletIterator)->x, (*bulletIterator)->y));
+            data->SetLife(data->GetLife() - 1);
+            ship->Imune = 30;
+            (*bulletIterator)->HasHit = true;
+        }
+    }
+
+    std::list<Enemy*>::const_iterator enemyIterator;
+    for (enemyIterator = enemyManager->Enemies.begin(); enemyIterator != enemyManager->Enemies.end(); ++enemyIterator) {
+        SDL_Rect rect = (*enemyIterator)->GetCollisionBox();
+        if (ship->Collision(&rect) && ship->Imune <= 0)
+        {
+            this->AddExplosion(new Vector2((*enemyIterator)->x, (*enemyIterator)->y));
+            data->SetLife(data->GetLife() - 1);
+            ship->Imune = 30;
+            (*enemyIterator)->ApplyDamage(10); 
+            if (!(*enemyIterator)->IsAlive()) {
+                this->AddExplosion(new Vector2((*enemyIterator)->x, (*enemyIterator)->y));
+                data->AddPoints((*enemyIterator)->Points);
+            }
+        }
     }
 
     bullets.remove_if([enemyManager](Bullet* b) {
+        if (b->HasHit) {
+            delete b;
+            return true;
+        }
+        return false;
+    });
+
+    enemyBullet.remove_if([enemyManager](Bullet* b) {
         if (b->HasHit) {
             delete b;
             return true;

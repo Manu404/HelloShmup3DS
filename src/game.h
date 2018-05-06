@@ -31,6 +31,9 @@ public:
     ~Game();
     void Initialize();
     void Run();
+    void Reset();
+    void Delete();
+    void Start();
 };
 
 #endif

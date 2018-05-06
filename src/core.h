@@ -3,10 +3,14 @@
 
 class GameData {
     int points;
+    int life;
 public:
     GameData();
+    void Reset();
     void AddPoints(int newPoints);
     int GetPoints();
+    void SetLife(int life);
+    int GetLife();
 };
 
 class Vector2 {
@@ -19,7 +23,6 @@ class Vector2 {
 
         float Length();
         Vector2* Normalize();
-        Vector2* Invert();
 };
 
 #endif
