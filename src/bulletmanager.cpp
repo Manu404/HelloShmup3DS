@@ -21,18 +21,41 @@ BulletManager::~BulletManager() {
 
 void BulletManager::Animate() {
     std::list<Bullet*>::const_iterator iterator;
+
     for (iterator = bullets.begin(); iterator != bullets.end(); ++iterator) {
         (*iterator)->Animate();
         if ((*iterator)->x > SCREEN_WIDTH || (*iterator)->y > SCREEN_HEIGHT)
             delete (*iterator);
     }
+    
+    for (iterator = explosions.begin(); iterator != explosions.end(); ++iterator) {
+        (*iterator)->Animate();
+        if ((*iterator)->EndReached)
+            delete (*iterator);
+    }
+
+    for (iterator = enemyBullet.begin(); iterator != enemyBullet.end(); ++iterator) {
+        (*iterator)->Animate();
+        if ((*iterator)->EndReached)
+            delete (*iterator);
+    }
  
-    bullets.remove_if([](Bullet* b) { return b->x > SCREEN_WIDTH || b->y > SCREEN_HEIGHT; });
+    bullets.remove_if([](Bullet* b) { return b->x > SCREEN_WIDTH || b->y > SCREEN_HEIGHT || b->x < 0 || b->y < 0; });
+    explosions.remove_if([](Bullet* b) { return b->EndReached; });
 }
 
 void BulletManager::Display() {
     std::list<Bullet*>::const_iterator iterator;
+
     for (iterator = bullets.begin(); iterator != bullets.end(); ++iterator) {
+        (*iterator)->Display();
+    }
+
+    for (iterator = explosions.begin(); iterator != explosions.end(); ++iterator) {
+        (*iterator)->Display();
+    }
+
+    for (iterator = enemyBullet.begin(); iterator != enemyBullet.end(); ++iterator) {
         (*iterator)->Display();
     }
 }
@@ -40,3 +63,54 @@ void BulletManager::Display() {
 void BulletManager::AddBlueBullet(int x, int y) {
     bullets.push_back(new BlueBullet(buffer, new Vector2(x, y), new Vector2(1, 0)));
 }
+
+void BulletManager::AddBlueBullet(Vector2* position, Vector2* direction) {
+    bullets.push_back(new BlueBullet(buffer, position, direction));
+}
+
+void BulletManager::AddEnemyBullet(Vector2* position, Vector2* direction) {
+    enemyBullet.push_back(new RedCrossBullet(buffer, position, direction));
+}
+
+void BulletManager::AddExplosion(Vector2* position) {
+    explosions.push_back(new ExplosionBullet(buffer, position));
+}
+
+void BulletManager::InitializeGraphics() {
+    Bullet* b = new BlueBullet(buffer, new Vector2(0, 0), new Vector2(0, 0));
+    delete b;
+}
+
+void BulletManager::HandleCollisionWithEnemy(EnemyManager* enemyManager, GameData* data) {
+    std::list<Bullet*>::const_iterator bulletIterator;
+    for (bulletIterator = bullets.begin(); bulletIterator != bullets.end(); ++bulletIterator) {
+        SDL_Rect rect = (*bulletIterator)->GetCollisionBox();
+
+        std::list<Enemy*>::const_iterator enemyIterator;
+        for (enemyIterator = enemyManager->Enemies.begin(); enemyIterator != enemyManager->Enemies.end(); ++enemyIterator) {
+            if ((*enemyIterator)->Collision(&rect))
+            {
+                (*enemyIterator)->ApplyDamage((*bulletIterator)->Force);
+                if(!(*enemyIterator)->IsAlive()) {
+                    this->AddExplosion(new Vector2((*bulletIterator)->x, (*bulletIterator)->y));
+                    data->AddPoints((*enemyIterator)->Points);
+                }
+                (*bulletIterator)->HasHit = true;
+            }
+        }        
+    }
+
+    bullets.remove_if([enemyManager](Bullet* b) {
+        if (b->HasHit) {
+            delete b;
+            return true;
+        }
+        return false;
+    });
+
+    explosions.remove_if([](Bullet* b) {
+        return b->EndReached;
+    });
+}
+
+

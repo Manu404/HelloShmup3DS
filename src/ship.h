@@ -10,8 +10,8 @@
 #define SHIP_ANIMATION_FT 1
 #define SHIP_ANIMATION_DN 2
 
-#define SHIP_SPRITE "romfs:/ship.png"
-#define SHIP_ANIMATION_PER_ROW 0
+#define SHIP_SPRITE "romfs:/ship2.png"
+#define SHIP_ANIMATION_PER_ROW 3
 #define SHIP_SPRITE_WIDTH 32
 #define SHIP_SPRITE_HEIGHT 32
 

@@ -62,27 +62,27 @@ int InputMgmt::HandleEvent() {
             switch(event.key.keysym.sym) {
                 case SDLK_UP:
                     key_held[K_UP] = 1;
-                    printf("up\n");
+                    //printf("up\n");
                     break;
                 case SDLK_DOWN:
                     key_held[K_DN] = 1;
-                    printf("down\n");
+                    //printf("down\n");
                     break;
                 case SDLK_LEFT:
                     key_held[K_LT] = 1;
-                    printf("left\n");
+                    //printf("left\n");
                     break;
                 case SDLK_RIGHT:
                     key_held[K_RT] = 1;
-                    printf("right\n");
+                    //printf("right\n");
                     break;
                 case SDLK_a:
                     key_held[K_A] = 1;
-                    printf("a\n");
+                    //printf("a\n");
                     break;
                 case SDLK_ESCAPE:
                     key_held[K_SELECT] = 1;
-                    printf("a\n");
+                    //printf("a\n");
                     break;
             }
         }	
@@ -90,27 +90,27 @@ int InputMgmt::HandleEvent() {
             switch(event.key.keysym.sym) {
                 case SDLK_UP:
                     key_held[K_UP] = 0;
-                    printf("up released\n");
+                    //printf("up released\n");
                     break;
                 case SDLK_DOWN:
                     key_held[K_DN] = 0;
-                    printf("down released\n");
+                    //printf("down released\n");
                     break;
                 case SDLK_LEFT:
                     key_held[K_LT] = 0;
-                    printf("left released\n");
+                    //printf("left released\n");
                     break;
                 case SDLK_RIGHT:
                     key_held[K_RT] = 0;
-                    printf("right released\n");
+                    //printf("right released\n");
                     break;
                 case SDLK_a:
                     key_held[K_A] = 0;
-                    printf("a release\n");
+                    //printf("a release\n");
                     break;
                 case SDLK_ESCAPE:
                     key_held[K_SELECT] = 0;
-                    printf("a\n");
+                    //printf("a\n");
                     break;
             }
         }

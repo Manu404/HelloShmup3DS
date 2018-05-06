@@ -3,6 +3,7 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "SDL/SDL_mixer.h"
+#include "SDL/SDL_ttf.h"
 #include "sprite.h"
 #include "input.h"
 #include "cat.h"
@@ -29,6 +30,7 @@ Game::~Game() {
     SDL_FreeSurface(this->backsurface);
     SDL_FreeSurface(this->screen);
     SDL_Quit();
+    TTF_Quit();
 }
 
 void Game::Run() {
@@ -44,19 +46,28 @@ void Game::Run() {
 
         ship->HandleInput(im, bulletManager);
 
-        if (frame % 30 == 0) {
-            enemyManager->AddEnemy(1, new Vector2(SCREEN_WIDTH, rand() % (SCREEN_HEIGHT - 40)), 1);
-        }
-
         background->Animate();
         enemyManager->Animate();
         bulletManager->Animate();
+        ship->Animate();
+
+        bulletManager->HandleCollisionWithEnemy(enemyManager, data);
+
+        if (frame % 30 == 0) {
+            Vector2* position = new Vector2(SCREEN_WIDTH, rand() % (SCREEN_HEIGHT - 40));
+            enemyManager->AddEnemy(1, position, 1);
+            Vector2* adjustedPosition = new Vector2(ship->x - position->x, ship->y - position->y);
+            bulletManager->AddEnemyBullet(position, adjustedPosition->Normalize());
+        }
+
 
         background->DisplayBackground();
         enemyManager->Display();
         ship->Display();
         bulletManager->Display();
         background->DisplayOverlay();
+
+        ui->Display(data);
 
         SDL_BlitSurface(backsurface, NULL, screen, NULL);
 
@@ -69,9 +80,9 @@ void Game::Initialize() {
     this->InitRomFs();
     this->InitSDL();
     this->InitVideo();
-    this->InitGraphics();
     this->InitAudio();
     this->InitGameEngine();
+    this->InitGraphics();
 }
 
 void Game::InitGameEngine() {
@@ -80,10 +91,13 @@ void Game::InitGameEngine() {
     this->background = new Background(this->backsurface);
     this->bulletManager = new BulletManager(this->backsurface);
     this->enemyManager = new EnemyManager(this->backsurface);
+    this->ui = new UserInterface(this->backsurface);
+    this->data = new GameData();
 }
 
 void Game::InitGraphics() {
-
+    this->bulletManager->InitializeGraphics();
+    this->enemyManager->InitializeGraphics();
 }
 
 void Game::InitVideo() {
@@ -104,6 +118,9 @@ void Game::InitVideo() {
 void Game::InitSDL() {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK);
     SDL_ShowCursor(SDL_DISABLE);
+    if (TTF_Init() < 0) {
+        // Handle error...
+    }
 }
 
 void Game::InitAudio() {
