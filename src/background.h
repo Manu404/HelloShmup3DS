@@ -19,14 +19,24 @@ class BackgroundLayer: public Sprite {
 
 class Background {
         SDL_Surface* buffer;
-        std::list<BackgroundLayer*> layers;
-        std::list<BackgroundLayer*> overlay;
     public:
+        std::list<BackgroundLayer*> Layers;
+        std::list<BackgroundLayer*> Overlay;
         Background(SDL_Surface*);
         ~Background();
         void Animate();
         void DisplayBackground();
         void DisplayOverlay();
+};
+
+class LevelBackground : public Background {
+public:
+    LevelBackground(SDL_Surface* buffer);
+};
+
+class TitleBackground : public Background {
+public:
+    TitleBackground(SDL_Surface* buffer);
 };
 
 #endif

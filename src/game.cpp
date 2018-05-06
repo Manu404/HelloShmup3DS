@@ -19,10 +19,10 @@ Game::Game() {
 }
 
 Game::~Game() {
-    delete this->background;
-    delete this->bulletManager;
-    delete this->enemyManager;
-    delete this->ship;
+    this->DeleteLevelObjects();
+    delete this->im;
+    delete this->ui;
+    delete this->data;
 
     romfsExit();
 
@@ -32,25 +32,23 @@ Game::~Game() {
     TTF_Quit();
 }
 
-void Game::Reset()
+void Game::ResetLevel()
 {
-    this->Delete();
-    this->Start();
+    this->DeleteLevelObjects();
+    this->CreateLevelObject();
 }
 
-void Game::Delete()
+void Game::DeleteLevelObjects()
 {
-    delete this->im;
-    delete this->background;
+    delete this->levelBackground;
     delete this->bulletManager;
     delete this->enemyManager;
     delete this->ship;
 }
 
-void Game::Start() {
-    this->im = new InputMgmt();
+void Game::CreateLevelObject() {
     this->ship = new Ship(this->backsurface);
-    this->background = new Background(this->backsurface);
+    this->levelBackground = new LevelBackground(this->backsurface);
     this->bulletManager = new BulletManager(this->backsurface);
     this->enemyManager = new EnemyManager(this->backsurface);
 }
@@ -61,51 +59,92 @@ void Game::Run() {
     while (game_running == 1) {
         frame += 1;
 
+        if (disabledInput > 0) {
+            disabledInput -= 1;
+        }
+
         im->HandleEvent();
 
-        if (im->IsKeySelectPressed() || im->IsQuitRequested())
+        if (im->IsQuitRequested())
             game_running = 0;
 
-        if (data->GetLife() > 0) {
-
-            ship->HandleInput(im, bulletManager);
-
-            background->Animate();
-            enemyManager->Animate();
-            bulletManager->Animate();
-            ship->Animate();
-
-            bulletManager->HandleCollisionWithEnemy(enemyManager, data, ship);
-
-            if (frame % 30 == 0) {
-                Vector2* position = new Vector2(SCREEN_WIDTH, rand() % (SCREEN_HEIGHT - 40));
-                enemyManager->AddEnemy(1, position, 1);
-                Vector2* adjustedPosition = new Vector2(ship->x - position->x, ship->y - position->y);
-                bulletManager->AddEnemyBullet(position, adjustedPosition->Normalize());
-            }
-
-
-            background->DisplayBackground();
-            enemyManager->Display();
-            ship->Display();
-            bulletManager->Display();
-            background->DisplayOverlay();
-
-            ui->Display(data);
+        if(is_title) {
+            RunTitle();
+        }
+        else if (data->GetLife() > 0) {
+            RunLevel();
         } 
         else {
-            ui->DisplayGameOver(data);
-            if(im->IsStartPressed()) {
-                this->Reset();
-                data->Reset();
-            }
+            RunGameOver();
         }
 
         SDL_BlitSurface(backsurface, NULL, screen, NULL);
 
         SDL_Flip(screen);
     }
+    printf("exit");
 }
+
+void Game::RunLevel() {
+    ship->HandleInput(im, bulletManager);
+
+    levelBackground->Animate();
+    enemyManager->Animate();
+    bulletManager->Animate();
+    ship->Animate();
+
+    bulletManager->HandleCollisionWithEnemy(enemyManager, data, ship);
+
+    if (frame % 30 == 0) {
+        Vector2* position = new Vector2(SCREEN_WIDTH, rand() % (SCREEN_HEIGHT - 40));
+        enemyManager->AddEnemy(1, position, 1);
+        Vector2* adjustedPosition = new Vector2(ship->x - position->x, ship->y - position->y);
+        bulletManager->AddEnemyBullet(position, adjustedPosition->Normalize());
+    }
+
+
+    levelBackground->DisplayBackground();
+    enemyManager->Display();
+    ship->Display();
+    bulletManager->Display();
+    levelBackground->DisplayOverlay();
+
+    ui->Display(data);
+}
+
+void Game::RunTitle() {
+    title_background->Animate();
+    title_background->DisplayBackground();
+
+    ui->DisplayTitle();
+
+    title_background->DisplayOverlay();
+
+    if (disabledInput) return;
+    if (im->IsKeyStartPressed()) {
+        this->CreateLevelObject();
+        this->data->Reset();
+        is_title = false;
+    }
+    else if (im->IsKeySelectPressed()) {
+        game_running = 0;
+    }
+}
+
+void Game::RunGameOver()
+{
+    ui->DisplayGameOver(data);
+    if (im->IsKeyStartPressed()) {
+        this->ResetLevel();
+        data->Reset();
+    }
+    else if(im->IsKeySelectPressed()) {
+        is_title = true;
+        disabledInput = 30;
+        this->DeleteLevelObjects();
+    }
+}
+
 
 void Game::Initialize() {
     this->is_init = true;
@@ -118,9 +157,11 @@ void Game::Initialize() {
 }
 
 void Game::InitGameEngine() {
-    this->Start();
+    this->im = new InputMgmt();
     this->ui = new UserInterface(this->backsurface);
     this->data = new GameData();
+    this->title_background = new TitleBackground(this->backsurface);
+    this->CreateLevelObject();
 }
 
 void Game::InitGraphics() {

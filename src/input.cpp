@@ -40,7 +40,7 @@ int InputMgmt::IsQuitRequested() {
     return key_held[K_QUIT];
 }
 
-int InputMgmt::IsStartPressed()
+int InputMgmt::IsKeyStartPressed()
 {
     return key_held[K_START];
 }

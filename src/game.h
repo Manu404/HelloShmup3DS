@@ -10,11 +10,12 @@
 #include "gui.h"
 
 class Game {
-    int game_running = 1, frame = 0, is_init;
+    int game_running = 1, frame = 0, is_init, is_title = 1, disabledInput = 0;
     SDL_Surface *screen, *backsurface;
     InputMgmt *im;
     Ship *ship;
-    Background *background;
+    LevelBackground *levelBackground;
+    TitleBackground *title_background;
     BulletManager *bulletManager;
     EnemyManager *enemyManager;
     GameData *data;
@@ -31,9 +32,13 @@ public:
     ~Game();
     void Initialize();
     void Run();
-    void Reset();
-    void Delete();
-    void Start();
+    void ResetLevel();
+    void DeleteLevelObjects();
+    void CreateLevelObject();
+
+    void RunLevel();
+    void RunGameOver();
+    void RunTitle();
 };
 
 #endif

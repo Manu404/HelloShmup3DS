@@ -39,14 +39,22 @@ void UserInterface::Display(GameData* data)
 void UserInterface::DisplayGameOver(GameData* data) {
     SDL_Rect gameOverMessageRect = { (SCREEN_WIDTH / 2) - (gameOverMessage->w / 2), 75, 0, 0 };
     SDL_BlitSurface(gameOverMessage, NULL, buffer, &gameOverMessageRect);
-    SDL_Rect pressStartMessageRect = { (SCREEN_WIDTH / 2) - (pressStartMessage->w / 2), 100, 0, 0 };
+    SDL_Rect pressStartMessageRect = { (SCREEN_WIDTH / 2) - (pressStartMessage->w / 2), 125, 0, 0 };
     SDL_BlitSurface(pressStartMessage, NULL, buffer, &pressStartMessageRect);
+    SDL_Rect pressSelectMessageRect = { (SCREEN_WIDTH / 2) - (pressSelectMessage->w / 2), 140, 0, 0 };
+    SDL_BlitSurface(pressSelectMessage, NULL, buffer, &pressSelectMessageRect);
+}
+
+void UserInterface::DisplayTitle() {
+    SDL_Rect pressStartMessageRect = { (SCREEN_WIDTH / 2) - (pressStartTitleMessage->w / 2), 200, 0, 0 };
+    SDL_BlitSurface(pressStartTitleMessage, NULL, buffer, &pressStartMessageRect);
 }
 
 
 void UserInterface::LoadFonts()
 {
     mainFont15 = TTF_OpenFont("romfs:/silkscreen/slkscr.ttf", 15);
+    titleFont10 = TTF_OpenFont("romfs:/bionic-kid/bionickidsimple.ttf", 10);
 }
 
 void UserInterface::InitializeStaticSurface()
@@ -55,6 +63,8 @@ void UserInterface::InitializeStaticSurface()
     lifeMessage = TTF_RenderText_Solid(mainFont15, "Life", { 255, 255, 255 });
     gameOverMessage = TTF_RenderText_Solid(mainFont15, "Game Over", { 255, 255, 255 });
     pressStartMessage = TTF_RenderText_Solid(mainFont15, "Press Start For New Game", { 255, 255, 255 });
+    pressSelectMessage = TTF_RenderText_Solid(mainFont15, "Press Select For Home", { 255, 255, 255 });
+    pressStartTitleMessage = TTF_RenderText_Solid(titleFont10, "Press Start", { 255, 255, 255 });
 }
 
 void UserInterface::DisplayText(const char* text, SDL_Rect* position)

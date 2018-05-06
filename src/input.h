@@ -28,7 +28,7 @@ class InputMgmt {
 
         int IsKeyAPressed();
         int IsKeySelectPressed();
-        int IsStartPressed();
+        int IsKeyStartPressed();
 
         int IsQuitRequested();
 };

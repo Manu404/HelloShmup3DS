@@ -80,7 +80,11 @@ void BulletManager::AddExplosion(Vector2* position) {
 
 void BulletManager::InitializeGraphics() {
     Bullet* b = new BlueBullet(buffer, new Vector2(0, 0), new Vector2(0, 0));
+    RedCrossBullet* r = new RedCrossBullet(buffer, new Vector2(0, 0), new Vector2(0, 0));
+    ExplosionBullet* e = new ExplosionBullet(buffer, new Vector2(0, 0));
     delete b;
+    delete r;
+    delete e;
 }
 
 void BulletManager::HandleCollisionWithEnemy(EnemyManager* enemyManager, GameData* data, Ship* ship) {
