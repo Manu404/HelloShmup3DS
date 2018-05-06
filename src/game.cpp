@@ -20,9 +20,9 @@ Game::Game() {
 
 Game::~Game() {
     this->DeleteLevelObjects();
-    delete this->im;
+    /*delete this->im;
     delete this->ui;
-    delete this->data;
+    delete this->data;*/
 
     romfsExit();
 
