@@ -13,16 +13,17 @@
 #include "bullet.h"
 #include "enemy.h"
 #include "game.h"
+#include <SDL/SDL_audio.h>
 
 Game::Game() {
 
 }
 
 Game::~Game() {
-    this->DeleteLevelObjects();
-    /*delete this->im;
+    //this->DeleteLevelObjects();
+    delete this->im;
     delete this->ui;
-    delete this->data;*/
+    delete this->data;
 
     romfsExit();
 
@@ -215,25 +216,31 @@ void Game::InitSDL() {
 }
 
 void Game::InitAudio() {
-    Mix_Music *music = NULL;
-    int flags = MIX_INIT_MP3;
+    int code = Mix_Init(MIX_INIT_OGG);
+    std::cout << "OGG libraries loaded: " << code << std::endl;
 
-    if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) < 0)
-    {
+    if (Mix_OpenAudio(22050, AUDIO_U16, 2, 1024) < 0) {
         printf("Error initializing SDL_mixer: %s\n", Mix_GetError());
     }
+    else {
+        printf("SDL_mixer Initialization succeed.\n");
+    }
 
-    //Load the music
-    music = Mix_LoadMUS("romfs:/Vampire.it");
+    Mix_Chunk *sample;
+    sample = Mix_LoadWAV("romfs:/music.ogg");
+    if (!sample) {
+        printf("Mix_LoadWAV: %s\n", Mix_GetError());
+    }
+    else {
+        printf("LoadWAv OK \n");
+    }
 
-    //If there was a problem loading the music
-    if (music == NULL)
-    {
+    Mix_Music* music = Mix_LoadMUS("romfs:/music.ogg");
+    if (music == NULL) {
         printf("Error loading music: %s\n", Mix_GetError());
     }
 
-    if (Mix_PlayingMusic() == 0)
-    {
+    if (Mix_PlayingMusic() == 0) {
         Mix_PlayMusic(music, -1);
     }
 }

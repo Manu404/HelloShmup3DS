@@ -119,6 +119,16 @@ void BulletManager::HandleCollisionWithEnemy(EnemyManager* enemyManager, GameDat
 
     std::list<Enemy*>::const_iterator enemyIterator;
     for (enemyIterator = enemyManager->Enemies.begin(); enemyIterator != enemyManager->Enemies.end(); ++enemyIterator) {
+        if((*enemyIterator)->FrameSinceLastShot == (*enemyIterator)->Agressivity) {
+            (*enemyIterator)->FrameSinceLastShot = 0;
+            Vector2* adjustedPosition = new Vector2(ship->x - (*enemyIterator)->x, ship->y - (*enemyIterator)->y);
+            AddEnemyBullet(new Vector2((*enemyIterator)->x, (*enemyIterator)->y), adjustedPosition->Normalize());
+        }
+        else
+        {
+            (*enemyIterator)->FrameSinceLastShot += 1;
+        }
+
         SDL_Rect rect = (*enemyIterator)->GetCollisionBox();
         if (ship->Collision(&rect) && ship->Imune <= 0)
         {

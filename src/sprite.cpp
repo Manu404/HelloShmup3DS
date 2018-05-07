@@ -41,7 +41,7 @@ SDL_Surface* Sprite::GetOrLoadSurface(char* path) {
         return surfaces[path];
     }
     else {
-        printf("load surface %s\n", path);
+        //printf("load surface %s\n", path);
         surfaces.insert(std::make_pair(path, LoadSurfaceFromRomFs(path)));
         return surfaces[path];
     }
@@ -57,7 +57,7 @@ SDL_Surface* Sprite::LoadSurfaceFromRomFs(char* path) {
     else {
         optimizedSurface = SDL_DisplayFormatAlpha(loadedSurface);
         if (optimizedSurface == NULL) {
-            printf("Unable to optimize image %s! SDL Error: %s\n", path, SDL_GetError());
+            //printf("Unable to optimize image %s! SDL Error: %s\n", path, SDL_GetError());
         }
         SDL_FreeSurface(loadedSurface);
     }

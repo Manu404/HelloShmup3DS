@@ -16,11 +16,12 @@
 
 class Enemy : public Sprite {
     int speed;
-    int frameSinceLastShot;
     int life;
 public:
+    int FrameSinceLastShot;
+    int Agressivity;
     int Points;
-    Enemy(SDL_Surface* buffer, Vector2* position, Vector2* sprite, int speed);
+    Enemy(SDL_Surface* buffer, Vector2* position, Vector2* sprite, int speed, int agressivity);
     void Animate();
     void ApplyDamage(int damage);
     int IsAlive();

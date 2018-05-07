@@ -40,20 +40,22 @@ void EnemyManager::Display() {
 
 void EnemyManager::AddEnemy(int enemyType, Vector2* position, int behaviour) {
     switch (enemyType) {
-        case 1: Enemies.push_back(new Enemy(this->buffer, position, new Vector2(rand() % 8, rand() % 4), (rand() % 10) + 5)); break;
+        case 1: Enemies.push_back(new Enemy(this->buffer, position, new Vector2(rand() % 8, rand() % 4), (rand() % 10), (rand() % 30) + 30)); break;
         default: break;
     }
 }
 
 void EnemyManager::InitializeGraphics() {
-    Enemy* e = new Enemy(this->buffer, new Vector2(0, 0), new Vector2(0, 0), 0);
+    Enemy* e = new Enemy(this->buffer, new Vector2(0, 0), new Vector2(0, 0), 0, 0);
     delete e;
 }
 
-Enemy::Enemy(SDL_Surface* buffer, Vector2* position, Vector2* sprite, int speed) : Sprite(ENEMY_SPRITE, (new Vector2(32, 32)), position, sprite, buffer) {
+Enemy::Enemy(SDL_Surface* buffer, Vector2* position, Vector2* sprite, int speed, int agressivity) : Sprite(ENEMY_SPRITE, (new Vector2(32, 32)), position, sprite, buffer) {
     this->speed = speed;
     this->life = rand() % 5;
     this->Points = rand() % 100;
+    this->Agressivity = agressivity;
+    this->FrameSinceLastShot = 0;
 }
 
 void Enemy::Animate() {
@@ -70,6 +72,6 @@ int Enemy::IsAlive() {
 }
 
 
-DefaultEnemy::DefaultEnemy(SDL_Surface* buffer, Vector2* position) : Enemy(buffer, position, (new Vector2(0, 4)), ENEMY_DEFAULT_ENEMY_SPEED) {
+DefaultEnemy::DefaultEnemy(SDL_Surface* buffer, Vector2* position) : Enemy(buffer, position, (new Vector2(0, 4)), ENEMY_DEFAULT_ENEMY_SPEED, 30) {
 
 }
