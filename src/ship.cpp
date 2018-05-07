@@ -80,3 +80,12 @@ void Ship::Display() {
     }
 }
 
+void Ship::Reset() {
+    this->x = 100;
+    this->y = 100;
+    frameSinceLastShot = 0;
+    Imune = 30;
+    this->SetAnimation(SHIP_ANIMATION_FT);
+}
+
+

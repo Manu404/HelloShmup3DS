@@ -8,6 +8,7 @@
 #include "bullet.h"
 #include "main.h"
 #include "ship.h"
+#include "Audio.h"
 
 BulletManager::BulletManager(SDL_Surface* buffer) {
     this->buffer = buffer;
@@ -87,7 +88,7 @@ void BulletManager::InitializeGraphics() {
     delete e;
 }
 
-void BulletManager::HandleCollisionWithEnemy(EnemyManager* enemyManager, GameData* data, Ship* ship) {
+void BulletManager::HandleCollisionWithEnemy(EnemyManager* enemyManager, GameData* data, Ship* ship, Audio* audio) {
     std::list<Bullet*>::const_iterator bulletIterator;
     for (bulletIterator = bullets.begin(); bulletIterator != bullets.end(); ++bulletIterator) {
         SDL_Rect rect = (*bulletIterator)->GetCollisionBox();
@@ -100,6 +101,7 @@ void BulletManager::HandleCollisionWithEnemy(EnemyManager* enemyManager, GameDat
                 if(!(*enemyIterator)->IsAlive()) {
                     this->AddExplosion(new Vector2((*bulletIterator)->x, (*bulletIterator)->y));
                     data->AddPoints((*enemyIterator)->Points);
+                    audio->PlayExplosionSfx();
                 }
                 (*bulletIterator)->HasHit = true;
             }
@@ -114,6 +116,8 @@ void BulletManager::HandleCollisionWithEnemy(EnemyManager* enemyManager, GameDat
             data->SetLife(data->GetLife() - 1);
             ship->Imune = 30;
             (*bulletIterator)->HasHit = true;
+            audio->PlayExplosionSfx();
+            audio->PlayAlertSfx();
         }
     }
 
@@ -135,10 +139,16 @@ void BulletManager::HandleCollisionWithEnemy(EnemyManager* enemyManager, GameDat
             this->AddExplosion(new Vector2((*enemyIterator)->x, (*enemyIterator)->y));
             data->SetLife(data->GetLife() - 1);
             ship->Imune = 30;
+
+            audio->PlayExplosionSfx();
+            audio->PlayAlertSfx();
+
             (*enemyIterator)->ApplyDamage(10); 
             if (!(*enemyIterator)->IsAlive()) {
                 this->AddExplosion(new Vector2((*enemyIterator)->x, (*enemyIterator)->y));
                 data->AddPoints((*enemyIterator)->Points);
+
+                audio->PlayExplosionSfx();
             }
         }
     }
@@ -163,5 +173,20 @@ void BulletManager::HandleCollisionWithEnemy(EnemyManager* enemyManager, GameDat
         return b->EndReached;
     });
 }
+
+void BulletManager::Reset() {
+    std::list<Bullet*>::const_iterator bulletIterator;
+    for (bulletIterator = bullets.begin(); bulletIterator != bullets.end(); ++bulletIterator) {
+        delete (*bulletIterator);
+    }
+
+    for (bulletIterator = enemyBullet.begin(); bulletIterator != enemyBullet.end(); ++bulletIterator) {
+        delete (*bulletIterator);
+    }
+
+    bullets.clear();
+    enemyBullet.clear();
+}
+
 
 

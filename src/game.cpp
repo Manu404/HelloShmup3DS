@@ -35,8 +35,10 @@ Game::~Game() {
 
 void Game::ResetLevel()
 {
-    this->DeleteLevelObjects();
-    this->CreateLevelObject();
+    this->ship->Reset();
+    this->bulletManager->Reset();
+    this->enemyManager->Reset();
+    this->levelBackground->Reset();
 }
 
 void Game::DeleteLevelObjects()
@@ -87,6 +89,8 @@ void Game::Run() {
 }
 
 void Game::RunLevel() {
+    audio->PlayLevelMusic();
+
     ship->HandleInput(im, bulletManager);
 
     if (disabledInput > 0) {
@@ -115,7 +119,7 @@ void Game::RunLevel() {
     bulletManager->Animate();
     ship->Animate();
 
-    bulletManager->HandleCollisionWithEnemy(enemyManager, data, ship);
+    bulletManager->HandleCollisionWithEnemy(enemyManager, data, ship, audio);
 
     if (frame % 30 == 0) {
         Vector2* position = new Vector2(SCREEN_WIDTH, rand() % (SCREEN_HEIGHT - 40));
@@ -134,6 +138,8 @@ void Game::RunLevel() {
 }
 
 void Game::RunTitle() {
+    audio->PlayTitleMusic();
+
     title_background->Animate();
     title_background->DisplayBackground();
 
@@ -143,7 +149,7 @@ void Game::RunTitle() {
 
     if (disabledInput) return;
     if (im->IsKeyStartPressed() || im->IsKeyAPressed()) {
-        this->CreateLevelObject();
+        this->ResetLevel();
         this->data->Reset();
         is_title = false;
         disabledInput = InputWaitFrame;
@@ -164,7 +170,6 @@ void Game::RunGameOver()
     else if(im->IsKeySelectPressed()) {
         is_title = true;
         disabledInput = InputWaitFrame;
-        this->DeleteLevelObjects();
     }
 }
 
@@ -184,6 +189,7 @@ void Game::InitGameEngine() {
     this->ui = new UserInterface(this->backsurface);
     this->data = new GameData();
     this->title_background = new TitleBackground(this->backsurface);
+    this->audio = new Audio();
     this->CreateLevelObject();
 }
 

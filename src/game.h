@@ -8,6 +8,7 @@
 #include "bullet.h"
 #include "enemy.h"
 #include "gui.h"
+#include "Audio.h"
 
 #define InputWaitFrame 10
 
@@ -22,6 +23,7 @@ class Game {
     EnemyManager *enemyManager;
     GameData *data;
     UserInterface *ui;
+    Audio* audio;
 
     void InitRomFs();
     void InitAudio();

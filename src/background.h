@@ -27,6 +27,7 @@ class Background {
         void Animate();
         void DisplayBackground();
         void DisplayOverlay();
+        void Reset();
 };
 
 class LevelBackground : public Background {

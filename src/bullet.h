@@ -36,6 +36,7 @@
 #define EXPLOSION_BULLET_SHOT_SPEED 3
 
 
+class Audio;
 class Ship;
 
 class Bullet : public Sprite {
@@ -78,7 +79,8 @@ public:
     void AddEnemyBullet(Vector2* position, Vector2* direction);
     void AddExplosion(Vector2* position);
     void InitializeGraphics();
-    void HandleCollisionWithEnemy(EnemyManager* enemyManager, GameData* data, Ship* ship);
+    void HandleCollisionWithEnemy(EnemyManager* enemyManager, GameData* data, Ship* ship, Audio* audio);
+    void Reset();
 };
 
 #endif

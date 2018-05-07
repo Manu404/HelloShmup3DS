@@ -82,6 +82,7 @@
   <ItemGroup>
     <ClCompile Include="nbproject\private\cpp_standard_headers_indexer.cpp" />
     <ClCompile Include="nbproject\private\c_standard_headers_indexer.c" />
+    <ClCompile Include="src\Audio.cpp" />
     <ClCompile Include="src\background.cpp" />
     <ClCompile Include="src\bullet.cpp" />
     <ClCompile Include="src\bulletmanager.cpp" />
@@ -96,6 +97,7 @@
     <ClCompile Include="src\sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Audio.h" />
     <ClInclude Include="src\background.h" />
     <ClInclude Include="src\bullet.h" />
     <ClInclude Include="src\cat.h" />

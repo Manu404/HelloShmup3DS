@@ -43,8 +43,7 @@ public:
     void Animate();
     void Display();
     void AddEnemy(int enemyType, Vector2* position, int behaviour);
-    void AddExplosition(Vector2* buffer, Vector2* position);
     void InitializeGraphics();
-    int HandleCollisionWithBullet(SDL_Rect* rect);
+    void Reset();
 };
 #endif

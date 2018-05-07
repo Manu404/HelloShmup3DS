@@ -50,6 +50,15 @@ void EnemyManager::InitializeGraphics() {
     delete e;
 }
 
+void EnemyManager::Reset() {
+    std::list<Enemy*>::const_iterator iterator;
+    for (iterator = Enemies.begin(); iterator != Enemies.end(); ++iterator) {
+        delete (*iterator);
+    }
+    Enemies.clear();
+}
+
+
 Enemy::Enemy(SDL_Surface* buffer, Vector2* position, Vector2* sprite, int speed, int agressivity) : Sprite(ENEMY_SPRITE, (new Vector2(32, 32)), position, sprite, buffer) {
     this->speed = speed;
     this->life = rand() % 5;

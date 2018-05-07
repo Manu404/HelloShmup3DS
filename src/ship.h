@@ -29,6 +29,7 @@ class Ship: public Sprite {
         Ship(SDL_Surface* buffer);
         void HandleInput(InputMgmt*, BulletManager*);
         void Display();
+        void Reset();
 };
 
 #endif

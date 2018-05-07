@@ -48,6 +48,19 @@ void Background::DisplayOverlay() {
     }
 }
 
+void Background::Reset() {
+    std::list<BackgroundLayer*>::const_iterator iterator;
+    for (iterator = Layers.begin(); iterator != Layers.end(); ++iterator) {
+        (*iterator)->x = 0;
+        (*iterator)->y = 0;
+    }
+    for (iterator = Overlay.begin(); iterator != Overlay.end(); ++iterator) {
+        (*iterator)->x = 0;
+        (*iterator)->y = 0;
+    }   
+}
+
+
 Background::~Background() {
     std::list<BackgroundLayer*>::const_iterator iterator;
     for (iterator = Layers.begin(); iterator != Layers.end(); ++iterator) {
