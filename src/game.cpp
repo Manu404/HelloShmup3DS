@@ -221,19 +221,10 @@ void Game::InitSDL() {
     }
 }
 
-void Game::InitAudio() {
-    int code = Mix_Init(MIX_INIT_OGG);
-    std::cout << "OGG libraries loaded: " << code << std::endl;
-
-    if (Mix_OpenAudio(22050, AUDIO_U16, 2, 1024) < 0) {
-        printf("Error initializing SDL_mixer: %s\n", Mix_GetError());
-    }
-    else {
-        printf("SDL_mixer Initialization succeed.\n");
-    }
-
+void LoadTestAudioFiles()
+{
     Mix_Chunk *sample;
-    sample = Mix_LoadWAV("romfs:/music.ogg");
+    sample = Mix_LoadWAV("romfs:/sfx.ogg");
     if (!sample) {
         printf("Mix_LoadWAV: %s\n", Mix_GetError());
     }
@@ -249,6 +240,20 @@ void Game::InitAudio() {
     if (Mix_PlayingMusic() == 0) {
         Mix_PlayMusic(music, -1);
     }
+}
+
+void Game::InitAudio() {
+    int code = Mix_Init(MIX_INIT_OGG);
+    std::cout << "OGG libraries loaded: " << code << std::endl;
+
+    if (Mix_OpenAudio(22050, AUDIO_U16, 2, 1024) < 0) {
+        printf("Error initializing SDL_mixer: %s\n", Mix_GetError());
+    }
+    else {
+        printf("SDL_mixer Initialization succeed.\n");
+    }
+
+    LoadTestAudioFiles();
 }
 
 void Game::InitRomFs() {
