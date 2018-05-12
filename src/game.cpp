@@ -4,14 +4,9 @@
 #include "SDL/SDL_image.h"
 #include "SDL/SDL_mixer.h"
 #include "SDL/SDL_ttf.h"
-#include "sprite.h"
 #include "input.h"
-#include "cat.h"
 #include "background.h"
-#include "ship.h"
 #include "main.h"
-#include "bullet.h"
-#include "enemy.h"
 #include "game.h"
 #include <SDL/SDL_audio.h>
 
@@ -23,7 +18,8 @@ Game::~Game() {
     //this->DeleteLevelObjects();
     delete this->im;
     delete this->ui;
-    delete this->data;
+    delete this->audio;
+    delete this->level;
 
     romfsExit();
 
@@ -33,111 +29,38 @@ Game::~Game() {
     TTF_Quit();
 }
 
-void Game::ResetLevel()
-{
-    this->ship->Reset();
-    this->bulletManager->Reset();
-    this->enemyManager->Reset();
-    this->levelBackground->Reset();
-}
-
-void Game::DeleteLevelObjects()
-{
-    delete this->levelBackground;
-    delete this->bulletManager;
-    delete this->enemyManager;
-    delete this->ship;
-}
-
-void Game::CreateLevelObject() {
-    this->ship = new Ship(this->backsurface);
-    this->levelBackground = new LevelBackground(this->backsurface);
-    this->bulletManager = new BulletManager(this->backsurface);
-    this->enemyManager = new EnemyManager(this->backsurface);
-}
-
 void Game::Run() {
     if (!is_init) return;
 
     while (game_running == 1) {
-        frame += 1;
-
-        if (disabledInput > 0) {
-            disabledInput -= 1;
-        }
-
-        im->HandleEvent();
 
         if (im->IsQuitRequested())
-            game_running = 0;
+            game_running = false;
 
         if(is_title) {
             RunTitle();
         }
-        else if (data->GetLife() > 0) {
-            RunLevel();
-        } 
         else {
-            RunGameOver();
-        }
-
-        SDL_BlitSurface(backsurface, NULL, screen, NULL);
-
-        SDL_Flip(screen);
+            level->Run(screen);
+            is_title = true;
+        } 
     }
     printf("exit");
 }
 
 void Game::RunLevel() {
-    audio->PlayLevelMusic();
 
-    ship->HandleInput(im, bulletManager);
-
-    if (disabledInput > 0) {
-        return;
-    }
-
-    if(im->IsKeyStartPressed() && !is_paused) {
-        is_paused = true;
-        disabledInput = InputWaitFrame;
-        return;
-    }
-    
-    if (im->IsKeyStartPressed() && is_paused) {
-        is_paused = false;
-        disabledInput = InputWaitFrame;
-        return;
-    }
-
-    if (is_paused) {
-        ui->DisplayPause();
-        return;
-    }
-
-    levelBackground->Animate();
-    enemyManager->Animate();
-    bulletManager->Animate();
-    ship->Animate();
-
-    bulletManager->HandleCollisionWithEnemy(enemyManager, data, ship, audio);
-
-    if (frame % 30 == 0) {
-        Vector2* position = new Vector2(SCREEN_WIDTH, rand() % (SCREEN_HEIGHT - 40));
-        enemyManager->AddEnemy(1, position, 1);
-        Vector2* adjustedPosition = new Vector2(ship->x - position->x, ship->y - position->y);
-        bulletManager->AddEnemyBullet(position, adjustedPosition->Normalize());
-    }
-
-    levelBackground->DisplayBackground();
-    enemyManager->Display();
-    ship->Display();
-    bulletManager->Display();
-    levelBackground->DisplayOverlay();
-
-    ui->Display(data);
 }
 
 void Game::RunTitle() {
+    frame += 1;
+
+    if (im->Disabled > 0) {
+        im->Disabled -= 1;
+    }
+
+    im->HandleEvent();
+
     audio->PlayTitleMusic();
 
     title_background->Animate();
@@ -147,32 +70,20 @@ void Game::RunTitle() {
 
     title_background->DisplayOverlay();
 
-    if (disabledInput) return;
+    if (im->Disabled) return;
     if (im->IsKeyStartPressed() || im->IsKeyAPressed()) {
-        this->ResetLevel();
-        this->data->Reset();
+        this->level->ResetLevel();
         is_title = false;
-        disabledInput = InputWaitFrame;
+        im->Disabled = InputWaitFrame;
     }
     else if (im->IsKeySelectPressed()) {
         game_running = 0;
     }
-}
 
-void Game::RunGameOver()
-{
-    ui->DisplayGameOver(data);
-    if (im->IsKeyStartPressed()) {
-        this->ResetLevel();
-        data->Reset();
-        disabledInput = InputWaitFrame;
-    }
-    else if(im->IsKeySelectPressed()) {
-        is_title = true;
-        disabledInput = InputWaitFrame;
-    }
-}
+    SDL_BlitSurface(backsurface, NULL, screen, NULL);
 
+    SDL_Flip(screen);
+}
 
 void Game::Initialize() {
     this->is_init = true;
@@ -181,21 +92,14 @@ void Game::Initialize() {
     this->InitVideo();
     this->InitAudio();
     this->InitGameEngine();
-    this->InitGraphics();
 }
 
 void Game::InitGameEngine() {
     this->im = new InputMgmt();
     this->ui = new UserInterface(this->backsurface);
-    this->data = new GameData();
     this->title_background = new TitleBackground(this->backsurface);
     this->audio = new Audio();
-    this->CreateLevelObject();
-}
-
-void Game::InitGraphics() {
-    this->bulletManager->InitializeGraphics();
-    this->enemyManager->InitializeGraphics();
+    this->level = new Level(this->im, this->ui, this->audio, this->backsurface);
 }
 
 void Game::InitVideo() {
@@ -217,7 +121,7 @@ void Game::InitSDL() {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK);
     SDL_ShowCursor(SDL_DISABLE);
     if (TTF_Init() < 0) {
-        // Handle error...
+        printf("Error initializing SDL_TTF");
     }
 }
 

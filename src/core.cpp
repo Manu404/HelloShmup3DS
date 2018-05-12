@@ -18,7 +18,6 @@ void GameData::Reset() {
     this->life = 3;
 }
 
-
 int GameData::GetLife() {
     return this->life;
 }

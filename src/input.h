@@ -15,6 +15,8 @@ class InputMgmt {
         int key_held[8];
         void Reset();
     public:
+        int Disabled = 0;
+
         InputMgmt();
 
         int HandleEvent();

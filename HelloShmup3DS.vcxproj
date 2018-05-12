@@ -92,9 +92,11 @@
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\gui.cpp" />
     <ClCompile Include="src\input.cpp" />
+    <ClCompile Include="src\level.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ship.cpp" />
     <ClCompile Include="src\sprite.cpp" />
+    <ClCompile Include="src\title.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Audio.h" />
@@ -106,9 +108,11 @@
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\gui.h" />
     <ClInclude Include="src\input.h" />
+    <ClInclude Include="src\level.h" />
     <ClInclude Include="src\main.h" />
     <ClInclude Include="src\ship.h" />
     <ClInclude Include="src\sprite.h" />
+    <ClInclude Include="src\title.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
