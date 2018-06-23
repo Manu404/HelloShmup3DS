@@ -118,9 +118,9 @@ void Game::InitVideo() {
 }
 
 void Game::InitSDL() {
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK);
+    SDL_Init(SDL_INIT_EVERYTHING);
     SDL_ShowCursor(SDL_DISABLE);
-    if (TTF_Init() < 0) {
+    if (TTF_Init() != 0) {
         printf("Error initializing SDL_TTF");
     }
 }

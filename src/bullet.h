@@ -65,7 +65,7 @@ public:
 };
 
 class BulletManager {
-    std::list<Bullet*> bullets;
+    std::list<Bullet*> playerBullets;
     std::list<Bullet*> enemyBullet;
     std::list<Bullet*> explosions;
     SDL_Surface* buffer;

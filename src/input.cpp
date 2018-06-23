@@ -45,7 +45,6 @@ int InputMgmt::IsKeyStartPressed()
     return key_held[K_START];
 }
 
-
 int InputMgmt::IsDirectionPressed() {
     return key_held[K_LT] || key_held[K_RT] || key_held[K_DN] || key_held[K_UP];
 }
