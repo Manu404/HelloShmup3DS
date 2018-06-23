@@ -101,7 +101,7 @@ void BulletManager::HandleCollisionWithEnemy(EnemyManager* enemyManager, GameDat
                 if(!(*enemyIterator)->IsAlive()) {
                     this->AddExplosion(new Vector2((*bulletIterator)->x, (*bulletIterator)->y));
                     data->AddPoints((*enemyIterator)->Points);
-                    audio->PlayExplosionSfx();
+                    //audio->PlayExplosionSfx();
                 }
                 (*bulletIterator)->HasHit = true;
             }
@@ -116,8 +116,8 @@ void BulletManager::HandleCollisionWithEnemy(EnemyManager* enemyManager, GameDat
             data->SetLife(data->GetLife() - 1);
             ship->Imune = 30;
             (*bulletIterator)->HasHit = true;
-            audio->PlayExplosionSfx();
-            audio->PlayAlertSfx();
+            /*audio->PlayExplosionSfx();
+            audio->PlayAlertSfx();*/
         }
     }
 
@@ -140,15 +140,15 @@ void BulletManager::HandleCollisionWithEnemy(EnemyManager* enemyManager, GameDat
             data->SetLife(data->GetLife() - 1);
             ship->Imune = 30;
 
-            audio->PlayExplosionSfx();
-            audio->PlayAlertSfx();
+            /*audio->PlayExplosionSfx();
+            audio->PlayAlertSfx();*/
 
             (*enemyIterator)->ApplyDamage(10); 
             if (!(*enemyIterator)->IsAlive()) {
                 this->AddExplosion(new Vector2((*enemyIterator)->x, (*enemyIterator)->y));
                 data->AddPoints((*enemyIterator)->Points);
 
-                audio->PlayExplosionSfx();
+                //audio->PlayExplosionSfx();
             }
         }
     }

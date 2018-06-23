@@ -62,8 +62,7 @@ void InputMgmt::Reset() {
 }
 
 int InputMgmt::HandleEvent() {
-    static SDL_Event event;
-
+    SDL_Event event;
     while (SDL_PollEvent(&event)) {
         if(event.type == SDL_KEYDOWN) {
             switch(event.key.keysym.sym) {
@@ -95,9 +94,11 @@ int InputMgmt::HandleEvent() {
                     key_held[K_START] = 1;
                     //printf("start\n");
                     break;
+                default:
+                    break;
             }
         }	
-        if(event.type == SDL_KEYUP) {
+        else if(event.type == SDL_KEYUP) {
             switch(event.key.keysym.sym) {
                 case SDLK_UP:
                     key_held[K_UP] = 0;
@@ -127,10 +128,13 @@ int InputMgmt::HandleEvent() {
                     key_held[K_START] = 0;
                     //printf("start\n");
                     break;
+                default:
+                    break;
             }
         }
-        if (event.type == SDL_QUIT) {
+        else if (event.type == SDL_QUIT) {
             key_held[K_QUIT] = 1;
         }
     }
+    return 0;
 }

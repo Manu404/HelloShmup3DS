@@ -37,11 +37,9 @@ Sprite::~Sprite() {
 
 SDL_Surface* Sprite::GetOrLoadSurface(char* path) {
     if (surfaces.find(path) != surfaces.end()) {
-        //printf("recycle surface %s\n", path);
         return surfaces[path];
     }
     else {
-        //printf("load surface %s\n", path);
         surfaces.insert(std::make_pair(path, LoadSurfaceFromRomFs(path)));
         return surfaces[path];
     }
@@ -57,7 +55,7 @@ SDL_Surface* Sprite::LoadSurfaceFromRomFs(char* path) {
     else {
         optimizedSurface = SDL_DisplayFormatAlpha(loadedSurface);
         if (optimizedSurface == NULL) {
-            //printf("Unable to optimize image %s! SDL Error: %s\n", path, SDL_GetError());
+            printf("Unable to optimize image %s! SDL Error: %s\n", path, SDL_GetError());
         }
         SDL_FreeSurface(loadedSurface);
     }
@@ -77,7 +75,6 @@ void Sprite::Display() {
 void Sprite::Display(Vector2* vector) {
     SDL_Rect srcrect = { (currentAnimation + offsetColumn) * width, (currentRow + offsetRow) * height, width, height };
     SDL_Rect dstrect = { vector->x, vector->y, width, height };
-    //SDL_BlitSurface(image, &srcrect, buffer, &dstrect);
 
     this->Display(image, &srcrect, buffer, &dstrect);
 

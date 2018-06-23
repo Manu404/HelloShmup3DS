@@ -82,24 +82,21 @@
   <ItemGroup>
     <ClCompile Include="nbproject\private\cpp_standard_headers_indexer.cpp" />
     <ClCompile Include="nbproject\private\c_standard_headers_indexer.c" />
-    <ClCompile Include="src\Audio.cpp" />
     <ClCompile Include="src\background.cpp" />
     <ClCompile Include="src\bullet.cpp" />
     <ClCompile Include="src\bulletmanager.cpp" />
     <ClCompile Include="src\cat.cpp" />
     <ClCompile Include="src\core.cpp" />
     <ClCompile Include="src\enemy.cpp" />
+    <ClCompile Include="src\enemymanager.cpp" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\gui.cpp" />
     <ClCompile Include="src\input.cpp" />
-    <ClCompile Include="src\level.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ship.cpp" />
     <ClCompile Include="src\sprite.cpp" />
-    <ClCompile Include="src\title.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Audio.h" />
     <ClInclude Include="src\background.h" />
     <ClInclude Include="src\bullet.h" />
     <ClInclude Include="src\cat.h" />
@@ -108,11 +105,9 @@
     <ClInclude Include="src\game.h" />
     <ClInclude Include="src\gui.h" />
     <ClInclude Include="src\input.h" />
-    <ClInclude Include="src\level.h" />
     <ClInclude Include="src\main.h" />
     <ClInclude Include="src\ship.h" />
     <ClInclude Include="src\sprite.h" />
-    <ClInclude Include="src\title.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />

@@ -58,10 +58,10 @@ void Game::RunTitle() {
     if (im->Disabled > 0) {
         im->Disabled -= 1;
     }
-
+    
     im->HandleEvent();
-
-    audio->PlayTitleMusic();
+    
+    //audio->PlayTitleMusic();
 
     title_background->Animate();
     title_background->DisplayBackground();
@@ -98,7 +98,7 @@ void Game::InitGameEngine() {
     this->im = new InputMgmt();
     this->ui = new UserInterface(this->backsurface);
     this->title_background = new TitleBackground(this->backsurface);
-    this->audio = new Audio();
+    //this->audio = new Audio();
     this->level = new Level(this->im, this->ui, this->audio, this->backsurface);
 }
 
@@ -157,7 +157,7 @@ void Game::InitAudio() {
         printf("SDL_mixer Initialization succeed.\n");
     }
 
-    LoadTestAudioFiles();
+    //LoadTestAudioFiles();
 }
 
 void Game::InitRomFs() {
