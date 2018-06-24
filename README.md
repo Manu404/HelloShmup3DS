@@ -3,3 +3,5 @@
 # HelloShmup for Nintendo 3DS
 
 HelloShmup is a hello world shoot'em'up written with SDL and compile with DevKitProARM.
+
+Get the game: https://github.com/Manu404/HelloShmup3DS/releases
