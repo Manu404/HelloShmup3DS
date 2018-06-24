@@ -1,0 +1,11 @@
+language: c++
+
+sudo: required
+
+services: docker 
+
+install:
+  - docker pull devkitpro/devkitarm
+
+script:
+  - docker run -e ENABLE_COMPATIBILITY_REPORTING -v $TRAVIS_BUILD_DIR:/HelloShmup3DS devkitpro/devkitarm /bin/bash -ex /HelloShmup3DS/.travis/docker.sh
