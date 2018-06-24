@@ -4,8 +4,21 @@ sudo: required
 
 services: docker 
 
+before_deploy:
+	- git config --local user.name "Manu404"
+	- git config --local user.email "istace.emmanuel@hotmail.com"
+	- git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+
 install:
-  - docker pull devkitpro/devkitarm
+	- docker pull devkitpro/devkitarm
 
 script:
-  - docker run -e ENABLE_COMPATIBILITY_REPORTING -v $TRAVIS_BUILD_DIR:/HelloShmup3DS devkitpro/devkitarm /bin/bash -ex /HelloShmup3DS/.travis/build.sh
+	- docker run -e ENABLE_COMPATIBILITY_REPORTING -v $TRAVIS_BUILD_DIR:/HelloShmup3DS devkitpro/devkitarm /bin/bash -ex /HelloShmup3DS/.travis/build.sh
+
+deploy:
+    provider: releases
+    api_key: "gsSOBAWsom0/I0IOYP6TjC7JG2RdS2Mn8AxILJ87ryfMAaHmSn8CtQoMQDP4S5NkGD36g8e3ArCJLQTfO8nIWQfySr7xHKykW3orvJAN7tVPn6Oiq69Bq2zbvlppLFFWimuTRZF7YUyc8LoPK9teZnaK8Kef/AIiupKc5L8MtI3zjn3MVVuON8G/72gE127eaWfdmZ4ieHvJrWSpE9k4+kk2AK5axwGaWWr0zDtY0d/PGb03HtM4yF3rIlVvyuA2RMf3uESZsfA3SCo+KyUbGZGgHYBvcQ4vAjorgEdxx9F+civmPzuJhxLdCVGVHcC7UzyXFFyBtcO5TLPoBhNWqil/56ad7SkNPR8X+FltKyq5n+8d+Ce3ovvF5AZgp2KJJpxyOS+kXXaPirHSaZWxacQ8eerH1ONktG09v98M0LApKwa+othNNqmaZDHcWqAz/9Dg39UniCw/A1/SZ8y3fqFdQeM5SIJHKb5c3Dzw/x/cX+KK7MIEFwV5aqt22xRvBSg9p2YJQAiRtK/13tghjkrttT4hjXVZgPgwzRhk71j3nK+PRAnVbHfWgFNxYFuq+mL8o0DKSloDqK5FCZ+uHLiZYNTaOfpDiVX/lGVKlzTtWFrHumovrfBCAVX6wli6s+LmDHmoo6iOZWefFbNM92o8zYyavibAUUcAcFVmVsE="
+    file: "HelloShmup.3dsx"
+    skip_cleanup: true
+	on:
+		tags: true
