@@ -11,7 +11,7 @@ deploy:
   skip_cleanup: true
   api_key:
     secure: o0L8YrDBdI6g4d3Yzvt9gU4FneAgaDVMnlP36u5+husLX6E/seAewqyl536dgF4QEBKd76xnx2UVzM786zMvOlnVNhPtoBqEWfizbC/VN7jwt+TTY/ziTNPnn0BEAHBc/2eKXi55PMI8v75MomDRUWTuw7mRg+aH7Xv+ahsKDQI5W/SykJSIWt35BouD/gTkKpsOD7xQhaDJvmoRsBhelHuNLhZ68ytTdPiIggeoYyXLCst5TUcoksoh/k5L4nOCG3YxeA6fw7RfZ/FWAjwlhRBkXMw2qBeRmUlmcSw3v3wnIu2xb1t8WnCgirF57twD5G2F16SepZqkUHYu05+hy9esKwnLL6hsYuABKJ0vddgwaGDP6OxsPyLyaygShMJBikI4ZEjPqDe81DNm00EiKVJ0CKOz1upBwWUIHHL630weFHZjIagQpor3jZJ+igfWSl9qEuafvrQ6NAJbV0V7dsxjQiDN5l4+3/J5nHYdDo3Qv00ymJlFdvX1bwXrJjWREKnF+mNwY0bRkKMaEquNPHCiPJzY0G1N/a1ji4lVyyCf8BtiTl7UF1Mn0taQh4WDhkc4aiOKS1zlldxwOMtbqUKhnJ50BAFtldrk0P7dpJLxc7eEJvSesAwxQ9O6+ItTM/yz1p3qQb/Z4Hmd+Jc7xDmAfiSV3cCILq1jCWqO+s0=
-  file: HelloShmup3DS.3dsx
+  file: /HelloShmup3DS/HelloShmup3DS.3dsx
   on:
     tag: true
 env:
