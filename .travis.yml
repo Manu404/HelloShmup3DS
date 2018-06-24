@@ -18,7 +18,6 @@ deploy:
   file: HelloShmup3DS.3dsx
   on:
     repo: Manu404/HelloShmup3DS
-    tag: true
 env:
   global:
     secure: YhBGXgUbh/+3ihI9xjOEE9LYUzte3/zasVpP5UtEI4h7fub74rZwysVT9g29qMMQkfm+wUtuB64+U3NPzsiDKtU1Jgltj/UxlyxI8hmDUIZqfxEFEhplSEr0uhppbHeptmYQedgo7vE1++3S91TtP/BqCr2pM8+L3bqfCR5bmEhnEM2CqTtIU45RmFIhTVlp16R7zRWg2NcU5E+hvL128/lqFZpVEm/uU8RzABISNQbSA6y408gLiihwK24w8Qbm3JXYv2sEz1HdSCf3P68MIbA095DBy8A6QNgNrmVmuVvpxz3onrJjfLvSNNcwwDbsIbbJx7x+1V7WwDubeLf6Oj9h89l6ijqHj361BdQ5ldQKx1+TThEIvPQQavoJIRBS9ApBiraZQAQ0+Hu7G3ug+AWN5e3GgURA/YXH6HzzZ7MUdEQT79FbR+CsJH21mqNtDpqxzBaFr3U7U4jM0TSLwxUsBbqqwVQ0DdUGA3Q7YgMy9B0EEmG/9UMF/yeAmi5KkeqVAthJOFamPuC3+uk/dW+oXn5whH4EkIHwAuXBLAGZ23+Y8Q5Ao8EBzm9NKj4Kctz7Xtxje0FE3IL9rvmhaUgIs3jmxofhUcYraHqdxw2CkxoaxstrahdX2ZRWFn/mFTrXtIZF7veedi7zZ+KrE81gZPJyCQqW7wIY/s4hyoM=
