@@ -1,10 +1,6 @@
 language: c++
 sudo: required
 services: docker
-before_deploy:
-- git config --local user.name "Manu404"
-- git config --local user.email "istace.emmanuel@hotmail.com"
-- git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 install:
 - docker pull devkitpro/devkitarm
 script:
@@ -17,7 +13,7 @@ deploy:
     secure: o0L8YrDBdI6g4d3Yzvt9gU4FneAgaDVMnlP36u5+husLX6E/seAewqyl536dgF4QEBKd76xnx2UVzM786zMvOlnVNhPtoBqEWfizbC/VN7jwt+TTY/ziTNPnn0BEAHBc/2eKXi55PMI8v75MomDRUWTuw7mRg+aH7Xv+ahsKDQI5W/SykJSIWt35BouD/gTkKpsOD7xQhaDJvmoRsBhelHuNLhZ68ytTdPiIggeoYyXLCst5TUcoksoh/k5L4nOCG3YxeA6fw7RfZ/FWAjwlhRBkXMw2qBeRmUlmcSw3v3wnIu2xb1t8WnCgirF57twD5G2F16SepZqkUHYu05+hy9esKwnLL6hsYuABKJ0vddgwaGDP6OxsPyLyaygShMJBikI4ZEjPqDe81DNm00EiKVJ0CKOz1upBwWUIHHL630weFHZjIagQpor3jZJ+igfWSl9qEuafvrQ6NAJbV0V7dsxjQiDN5l4+3/J5nHYdDo3Qv00ymJlFdvX1bwXrJjWREKnF+mNwY0bRkKMaEquNPHCiPJzY0G1N/a1ji4lVyyCf8BtiTl7UF1Mn0taQh4WDhkc4aiOKS1zlldxwOMtbqUKhnJ50BAFtldrk0P7dpJLxc7eEJvSesAwxQ9O6+ItTM/yz1p3qQb/Z4Hmd+Jc7xDmAfiSV3cCILq1jCWqO+s0=
   file: HelloShmup3DS.3dsx
   on:
-    repo: Manu404/HelloShmup3DS
+    tag: true
 env:
   global:
     secure: YhBGXgUbh/+3ihI9xjOEE9LYUzte3/zasVpP5UtEI4h7fub74rZwysVT9g29qMMQkfm+wUtuB64+U3NPzsiDKtU1Jgltj/UxlyxI8hmDUIZqfxEFEhplSEr0uhppbHeptmYQedgo7vE1++3S91TtP/BqCr2pM8+L3bqfCR5bmEhnEM2CqTtIU45RmFIhTVlp16R7zRWg2NcU5E+hvL128/lqFZpVEm/uU8RzABISNQbSA6y408gLiihwK24w8Qbm3JXYv2sEz1HdSCf3P68MIbA095DBy8A6QNgNrmVmuVvpxz3onrJjfLvSNNcwwDbsIbbJx7x+1V7WwDubeLf6Oj9h89l6ijqHj361BdQ5ldQKx1+TThEIvPQQavoJIRBS9ApBiraZQAQ0+Hu7G3ug+AWN5e3GgURA/YXH6HzzZ7MUdEQT79FbR+CsJH21mqNtDpqxzBaFr3U7U4jM0TSLwxUsBbqqwVQ0DdUGA3Q7YgMy9B0EEmG/9UMF/yeAmi5KkeqVAthJOFamPuC3+uk/dW+oXn5whH4EkIHwAuXBLAGZ23+Y8Q5Ao8EBzm9NKj4Kctz7Xtxje0FE3IL9rvmhaUgIs3jmxofhUcYraHqdxw2CkxoaxstrahdX2ZRWFn/mFTrXtIZF7veedi7zZ+KrE81gZPJyCQqW7wIY/s4hyoM=
